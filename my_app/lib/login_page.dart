@@ -17,10 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: TextStyle(
-            color: Colors.black45,
-            fontFamily: 'OpenSans',
-          ), //kLabelStyle,
+          style: kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
@@ -30,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black45,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -38,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.white,
+                color: Colors.deepOrange[200],
               ),
               hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
@@ -65,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: TextField(
             obscureText: true,
             style: TextStyle(
-              color: Colors.white,
+              color: Colors.black45,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
@@ -73,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.white,
+                color: Colors.deepOrange[200],
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
