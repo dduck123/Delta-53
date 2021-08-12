@@ -16,7 +16,10 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Text(
           'Email',
-          style: kLabelStyle,
+          style: TextStyle(
+            color: Colors.black45,
+            fontFamily: 'OpenSans',
+          ), //kLabelStyle,
         ),
         SizedBox(height: 10.0),
         Container(
@@ -82,13 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildForgotPasswordBtn() {
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.center,
       child: FlatButton(
         onPressed: () => print('Forgot Password Button Pressed'),
         padding: EdgeInsets.only(right: 0.0),
         child: Text(
           'Forgot Password?',
-          style: kLabelStyle,
+          style: TextStyle(color: Colors.black45),
         ),
       ),
     );
@@ -132,11 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.white,
+        color: Colors.indigo[400],
         child: Text(
-          'LOGIN',
+          'SIGN IN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -153,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '- OR -',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black45,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -166,27 +169,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () => print('Sign Up Button Pressed'),
       child: RichText(
+        textAlign: TextAlign.center,
         text: TextSpan(
           children: [
             TextSpan(
               text: 'Don\'t have an Account? ',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
+                color: Colors.black45,
                 fontWeight: FontWeight.w400,
               ),
             ),
             TextSpan(
-              text: 'Sign Up',
+              text: '\nContact Administrator',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
+                color: Colors.indigo[400],
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: ' to Sign Up',
+              style: TextStyle(
+                color: Colors.black45,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],
@@ -212,12 +220,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
+                      Colors.deepOrange.shade200,
+                      Colors.white,
                     ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
+                    stops: [0.1, 0.9],
                   ),
                 ),
               ),
@@ -233,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'SIGN IN',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',

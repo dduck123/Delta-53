@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
-
 final kHintTextStyle = TextStyle(
-  color: Colors.white54,
+  color: Colors.black38,
   fontFamily: 'OpenSans',
 );
 
 final kLabelStyle = TextStyle(
-  color: Colors.white,
+  color: Colors.black45,
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
 
 final kBoxDecorationStyle = BoxDecoration(
-  color: Color(0xFF6CA8F1),
+  color: Colors.white,
   borderRadius: BorderRadius.circular(10.0),
   boxShadow: [
     BoxShadow(
