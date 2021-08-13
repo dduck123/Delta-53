@@ -9,8 +9,8 @@ class Stats extends StatelessWidget {
     return MaterialApp(
         theme: ThemeData(
         // Define the default brightness and colors.
-        brightness: Brightness.dark,
-        primaryColor: Colors.purple[100],
+        brightness: Brightness.light,
+        primaryColor: Colors.indigo[300],
         ),
 
         home: DefaultTabController(
