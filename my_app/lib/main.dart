@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-<<<<<<< HEAD
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -103,5 +103,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-=======
->>>>>>> 676947bffaaee0ba1a3113472b282a4c957e95b5
+
