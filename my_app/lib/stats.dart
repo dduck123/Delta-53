@@ -35,9 +35,17 @@ class Stats extends StatelessWidget {
             ),
             title: const Text('User Statistics'),
           ),
+          body: const TabBarView(
+            children: [
+              Text("payslip"),
+              Text("attendance and leaves"),
+              Text("Personal information"),
+            ],
+          ),
           drawer: MyDrawer(),
         ),
       ),
+
     );
   }
 }
