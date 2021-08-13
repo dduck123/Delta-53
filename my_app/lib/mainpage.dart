@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         // Define the default brightness and colors.
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         primaryColor: Colors.purple[100],
       ),
       home: MyHomePage(
