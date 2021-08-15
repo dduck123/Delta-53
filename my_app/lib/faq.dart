@@ -2,14 +2,37 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/drawer_navigation.dart';
 
-
 List _elements = [
-  {'qns': 'Who else can access my data', 'ans': 'Your data is linked to your login only. This is dependant on you being the only person who knows your Delta password information. ','cat': 'How to use'},
-  {'qns': 'What if i need to change my personal details', 'ans': 'Your name and date of birth are key items of data which can only be amended with relevant supporting documentation. Should you need to change these details, please refer to the HR department for further guidance.','cat': 'How to use'},
-  {'qns': 'What do i do if i think my absence record is incorrect', 'ans': 'Please contact your manager or departmental admin for more information', 'cat': 'How to use'},
-  {'qns': 'Where to report a person...', 'ans': 'Contact 911','cat': 'Contact support'},
-  {'qns': 'HELPME', 'ans': 'NO','cat': 'Contact support'},
-  {'qns': 'Daniel Miller is who?', 'ans': 'A GOAT','cat': 'How to use'},
+  {
+    'qns': 'Who else can access my data',
+    'ans':
+        'Only you and the HR team can access your data. Do not give out your password to anyone else. ',
+    'cat': 'How to use'
+  },
+  {
+    'qns': 'What if i need to change my personal details',
+    'ans':
+        'Your name and date of birth are key items of data which can only be amended with relevant supporting documentation. Should you need to change these details, please refer to the HR department for further assistance.',
+    'cat': 'How to use'
+  },
+  {
+    'qns': 'What do I do if I think my absence record is incorrect',
+    'ans':
+        'Please contact your manager or department admin for assitance in amending the correct changes to your record.',
+    'cat': 'How to use'
+  },
+  {
+    'qns': 'Where to report a person...',
+    'ans': 'Contact 911',
+    'cat': 'Contact support'
+  },
+  {'qns': 'Daniel Miller is who?', 'ans': 'THE GOAT', 'cat': 'How to use'},
+  {
+    'qns': 'About Delta',
+    'ans':
+        'Delta is an app aimed to assist teams and make project management easier as the changes to work life becomes more home-based.',
+    'cat': 'About'
+  },
 ];
 
 class Faq extends StatelessWidget {
@@ -50,18 +73,19 @@ class Faq extends StatelessWidget {
                 child: ListTile(
                   tileColor: Colors.blue[100],
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   leading: Icon(Icons.account_circle),
                   title: Text(element['qns']),
                   trailing: Icon(Icons.arrow_forward),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreen(element['qns'],element['ans']),
-                        ),
-                      );
-                    },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailScreen(element['qns'], element['ans']),
+                      ),
+                    );
+                  },
                 ),
               ),
             );
@@ -76,8 +100,7 @@ class Faq extends StatelessWidget {
 class DetailScreen extends StatelessWidget {
   final String qns;
   final String ans;
-  DetailScreen(this.qns,this.ans);
-
+  DetailScreen(this.qns, this.ans);
 
   @override
   Widget build(BuildContext context) {
