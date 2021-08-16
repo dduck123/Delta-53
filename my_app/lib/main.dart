@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/employee.dart';
 import 'package:my_app/pages/login_page.dart';
+import 'package:my_app/database/employee_db.dart';
 
 
 void main() {
+
   runApp(MyApp());
 }
 
@@ -16,6 +19,8 @@ class MyApp extends StatelessWidget {
       home: LoginScreen(),
     );
   }
+
+
 }
 
 
