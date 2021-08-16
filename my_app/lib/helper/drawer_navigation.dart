@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/announcement_page.dart';
 import 'package:my_app/pages/main_page.dart';
-import 'package:my_app/pages//login_page.dart';
-import "package:my_app/pages/stats_page.dart";
-import 'package:my_app/pages/faq_page.dart';
+import 'package:my_app/pages/login_page.dart';
+import 'package:my_app/pages/stats_page.dart';
+import "package:my_app/pages/faq_page.dart";
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.orangeAccent),
+            decoration: BoxDecoration(color: Colors.indigoAccent),
             child: Text("View"),
           ),
           ListTile(
@@ -22,18 +23,6 @@ class MyDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => MainPage()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.notifications, color: Colors.indigo[300], size: 24.0),
-            title: const Text('Notification'),
-            onTap: () {
-              // Update the state of the app
-              // ...
-              // Then close the drawer
-              Navigator.pop(context);
-
-
             },
           ),
           ListTile(
@@ -79,6 +68,8 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Faq()));
             },
           ),
           ListTile(
