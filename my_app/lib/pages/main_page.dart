@@ -1,18 +1,23 @@
+
 import 'package:flutter/material.dart';
-import 'package:my_app/drawer_navigation.dart';
+import 'package:my_app/helper/drawer_navigation.dart';
 import 'package:calendar_strip/calendar_strip.dart';
 
-//test
+
+
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-          // Define the default brightness and colors.
-          brightness: Brightness.light,
-          primaryColor: Colors.purple[100],
-        ),
-        home: MyHomePage());
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        brightness: Brightness.light,
+        primaryColor: Colors.indigo[300],
+      ),
+      home: MyHomePage(
+
+      )
+    );
   }
 }
 
@@ -80,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     bool isSelectedDate = date.compareTo(selectedDate) == 0;
     Color fontColor = isDateOutOfRange ? Colors.black26 : Colors.black87;
     TextStyle normalStyle =
-        TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
+    TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
     TextStyle selectedStyle = TextStyle(
         fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
     TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
@@ -116,18 +121,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
           child: CalendarStrip(
-        startDate: startDate,
-        endDate: endDate,
-        selectedDate: selectedDate,
-        onDateSelected: onSelect,
-        onWeekSelected: onWeekSelect,
-        dateTileBuilder: dateTileBuilder,
-        iconColor: Colors.black87,
-        monthNameWidget: _monthNameWidget,
-        markedDates: markedDates,
-        containerDecoration: BoxDecoration(color: Colors.deepPurpleAccent),
-        addSwipeGesture: true,
-      )),
+            startDate: startDate,
+            endDate: endDate,
+            selectedDate: selectedDate,
+            onDateSelected: onSelect,
+            onWeekSelected: onWeekSelect,
+            dateTileBuilder: dateTileBuilder,
+            iconColor: Colors.black87,
+            monthNameWidget: _monthNameWidget,
+            markedDates: markedDates,
+            containerDecoration: BoxDecoration(color: Colors.blue[100]),
+            addSwipeGesture: true,
+          )),
       drawer: MyDrawer(),
     );
   }

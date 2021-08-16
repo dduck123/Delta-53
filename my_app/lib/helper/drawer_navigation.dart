@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/mainpage.dart';
-import 'package:my_app/login_page.dart';
-import "package:my_app/stats.dart";
-import 'package:my_app/faq.dart';
+import 'package:my_app/pages/main_page.dart';
+import 'package:my_app/pages//login_page.dart';
+import "package:my_app/pages/stats_page.dart";
+import 'package:my_app/pages/faq_page.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.indigoAccent),
+            decoration: BoxDecoration(color: Colors.orangeAccent),
             child: Text("View"),
           ),
           ListTile(

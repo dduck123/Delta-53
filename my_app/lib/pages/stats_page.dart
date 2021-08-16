@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/drawer_navigation.dart';
+import 'package:my_app/helper/drawer_navigation.dart';
 
 class Stats extends StatelessWidget {
   const Stats({Key? key}) : super(key: key);
@@ -18,6 +18,8 @@ class Stats extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             bottom: const TabBar(
+              unselectedLabelColor: Colors.indigo,
+              indicatorColor: Colors.indigo,
               tabs: [
                 Tab(
                   icon: Icon(Icons.monetization_on_outlined),

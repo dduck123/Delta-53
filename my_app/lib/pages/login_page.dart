@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_app/constants.dart';
-import 'package:my_app/mainpage.dart';
+import 'package:my_app/helper/constants.dart';
+import 'package:my_app/pages/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -274,3 +274,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
