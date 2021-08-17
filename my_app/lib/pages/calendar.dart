@@ -1,3 +1,4 @@
+import 'package:my_app/helper/drawer_navigation.dart';
 import 'package:my_app/pages/event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -104,7 +105,7 @@ class _CalendarState extends State<Calendar> {
             ),
           ),
           ..._getEventsfromDay(selectedDay).map(
-                (Event event) => ListTile(
+            (Event event) => ListTile(
               title: Text(
                 event.title,
               ),
@@ -129,7 +130,6 @@ class _CalendarState extends State<Calendar> {
                 child: Text("Ok"),
                 onPressed: () {
                   if (_eventController.text.isEmpty) {
-
                   } else {
                     if (selectedEvents[selectedDay] != null) {
                       selectedEvents[selectedDay]!.add(
@@ -140,11 +140,10 @@ class _CalendarState extends State<Calendar> {
                         Event(title: _eventController.text)
                       ];
                     }
-
                   }
                   Navigator.pop(context);
                   _eventController.clear();
-                  setState((){});
+                  setState(() {});
                   return;
                 },
               ),
@@ -154,6 +153,7 @@ class _CalendarState extends State<Calendar> {
         label: Text("Request Leave"),
         icon: Icon(Icons.add),
       ),
+      drawer: MyDrawer(),
     );
   }
 }
