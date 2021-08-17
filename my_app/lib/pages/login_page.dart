@@ -7,15 +7,13 @@ import 'package:my_app/pages/main_page.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
-  String message= "";
-
+  String message = "";
 
   Widget _buildEmailTF() {
     return Column(
@@ -89,7 +87,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   Widget _buildForgotPasswordBtn() {
     return Container(
       alignment: Alignment.center,
@@ -130,18 +127,22 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   validate(BuildContext ctx) {
     if (myControllerEmail.text != "" && myControllerPass.text != "") {
       if (myControllerEmail.text == "delta@53.com" &&
           myControllerPass.text == "delta53") {
         return true;
       }
-      message ="Wrong email or password.";
+      message = "Wrong email or password.";
       return false;
-    }
-    message ="Nothing input";
+    } else if (myControllerEmail.text != "") {
+      message = "Enter an password";
+    } else if (myControllerPass.text != "") {
+      message = "Enter a email";
+    } else
+      message = "Nothing input";
     return false;
-
   }
 
   Widget _buildLoginBtn() {
@@ -151,35 +152,31 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-          if(validate(context)){
+          if (validate(context)) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MainPage()),
             );
-          }
-          else{
+          } else {
             showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Warning'),
-                  content:  Text(message),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Warning'),
+                content: Text(message),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancel'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
             );
           }
-
         },
-
-
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -318,5 +315,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
