@@ -5,6 +5,7 @@ import 'package:my_app/pages/main_page.dart';
 import 'package:my_app/pages/login_page.dart';
 import 'package:my_app/pages/stats_page.dart';
 import "package:my_app/pages/faq_page.dart";
+import 'package:my_app/pages/calendar.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -45,6 +46,8 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Calendar()));
             },
           ),
           ListTile(
