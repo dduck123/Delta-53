@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/announcement_page.dart';
+import 'package:my_app/pages/logout_page.dart';
 import 'package:my_app/pages/main_page.dart';
 import 'package:my_app/pages/login_page.dart';
 import 'package:my_app/pages/stats_page.dart';
@@ -68,8 +69,8 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => Faq()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext context) => Faq()));
             },
           ),
           ListTile(
@@ -90,7 +91,7 @@ class MyDrawer extends StatelessWidget {
               // Then close the drawer
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => LoginScreen()));
+                  builder: (BuildContext context) => LogoutOverlay()));
             },
           ),
         ],
