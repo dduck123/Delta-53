@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_app/database/employee_db.dart';
 import 'package:my_app/helper/constants.dart';
+import  'package:provider/provider.dart';
+import 'package:my_app/pages/authentication_service.dart';
 import 'package:my_app/pages/main_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
+
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //v2
   bool _rememberMe = false;
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
   String message = "";
+ //v2
+  bool isInProgress = false;
 
   Widget _buildEmailTF() {
     return Column(
@@ -145,63 +151,74 @@ class _LoginScreenState extends State<LoginScreen> {
     return false;
   }
 
+  //v2
+  _login() async {
+    {
+      setState(() {
+        isInProgress = true;
+      });
+      final status =
+      await FirebaseAuthHelper().login(email: myControllerEmail.text.trim(), pass: myControllerPass.text.trim());
+      setState(() {
+        isInProgress = false;
+      });
+      if (status == AuthResultStatus.successful) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPage()));
+      } else {
+         final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+
+              showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          backgroundColor: Colors.indigo,
+                          title: Center(
+                            child:
+                            Text('Alert',
+                              style:
+                              TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+
+                              )
+                            )
+                          ),
+                          content: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children : <Widget>[
+                              Expanded(
+                                child: Text(
+                                  errorMsg,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+
+                          actions: <Widget>[
+                            RaisedButton(
+                              color: Colors.white,
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ));
+      }
+    }
+  }
+  //v2
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-          if (validate(context)) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MainPage()),
-            );
-          } else {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                backgroundColor: Colors.indigo,
-                title: Center(
-                  child:
-                  Text('Alert',
-                    style:
-                    TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-
-                    )
-                  )
-                ),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children : <Widget>[
-                    Expanded(
-                      child: Text(
-                        message,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-
-                actions: <Widget>[
-                  RaisedButton(
-                    color: Colors.white,
-                    onPressed: () => Navigator.pop(context, 'OK'),
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
-          }
-        },
+        onPressed: _login,
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -220,6 +237,89 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
+
+
+
+
+
+
+  // Widget _buildLoginBtn() {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(vertical: 25.0),
+  //     width: double.infinity,
+  //     child: RaisedButton(
+  //       elevation: 5.0,
+  //       onPressed: () {
+  //         if (validate(context)) {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(builder: (context) => MainPage()),
+  //           );
+  //         } else {
+  //           showDialog(
+  //             context: context,
+  //             builder: (BuildContext context) => AlertDialog(
+  //               backgroundColor: Colors.indigo,
+  //               title: Center(
+  //                 child:
+  //                 Text('Alert',
+  //                   style:
+  //                   TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 24,
+  //                     fontWeight: FontWeight.bold,
+  //
+  //                   )
+  //                 )
+  //               ),
+  //               content: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children : <Widget>[
+  //                   Expanded(
+  //                     child: Text(
+  //                       message,
+  //                       textAlign: TextAlign.center,
+  //                       style: TextStyle(
+  //                         color: Colors.white,
+  //
+  //                       ),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //
+  //               actions: <Widget>[
+  //                 RaisedButton(
+  //                   color: Colors.white,
+  //                   onPressed: () => Navigator.pop(context, 'OK'),
+  //                   child: const Text('OK'),
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         }
+  //       },
+  //       padding: EdgeInsets.all(15.0),
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(30.0),
+  //       ),
+  //       color: Colors.indigo[400],
+  //       child: Text(
+  //         'SIGN IN',
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           letterSpacing: 1.5,
+  //           fontSize: 18.0,
+  //           fontWeight: FontWeight.bold,
+  //           fontFamily: 'OpenSans',
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildSignInWithText() {
     return Column(
@@ -327,6 +427,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildForgotPasswordBtn(),
                       _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
+                      //build(context),
                       _buildSignInWithText(),
                       _buildSignupBtn(),
                     ],
