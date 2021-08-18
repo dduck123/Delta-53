@@ -137,11 +137,11 @@ class _LoginScreenState extends State<LoginScreen> {
       message = "Wrong email or password.";
       return false;
     } else if (myControllerEmail.text != "") {
-      message = "Enter an password";
+      message = "Please enter your password.";
     } else if (myControllerPass.text != "") {
-      message = "Enter a email";
+      message = "Please enter your email.";
     } else
-      message = "Nothing input";
+      message = "Please enter your email and password.";
     return false;
   }
 
@@ -161,14 +161,39 @@ class _LoginScreenState extends State<LoginScreen> {
             showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                title: const Text('Warning'),
-                content: Text(message),
+                backgroundColor: Colors.indigo,
+                title: Center(
+                  child:
+                  Text('Alert',
+                    style:
+                    TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+
+                    )
+                  )
+                ),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children : <Widget>[
+                    Expanded(
+                      child: Text(
+                        message,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+
                 actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('Cancel'),
-                  ),
-                  TextButton(
+                  RaisedButton(
+                    color: Colors.white,
                     onPressed: () => Navigator.pop(context, 'OK'),
                     child: const Text('OK'),
                   ),
