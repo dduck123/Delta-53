@@ -23,9 +23,14 @@ class _AnnounceState extends State<Announce> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.indigo[300],
+      ),
       home: Scaffold(
+        backgroundColor: Colors.greenAccent[100],
+
         appBar: AppBar(
           title: Text("Announcement"),
         ),
@@ -35,28 +40,46 @@ class _AnnounceState extends State<Announce> {
             if (!snapshot.hasData) {
               return Center(child: Text("Loading..."));
             }
-            return ListView(
+            return GridView.count(
+              crossAxisCount: 2,
               padding: const EdgeInsets.all(20),
               children: snapshot.data!.docs.map((announce) {
                 return Card(
                   elevation: 10.0,
                   shadowColor: Colors.purpleAccent,
-                  margin: EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                   child: Container(
-
                     child: ListTile(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0),
                       ),
-                      tileColor: Colors.primaries[_random.nextInt(Colors.primaries.length)]
-                [_random.nextInt(4) * 100],
+                      tileColor: Colors.primaries[
+                              _random.nextInt(Colors.primaries.length)]
+                          [_random.nextInt(4) * 100],
                       contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      title: Text(announce['title']),
-                      subtitle: Text(announce['message']),
+                          horizontal: 20.0, vertical: 30.0),
+                      title: Transform.translate(
+                          offset: Offset(0, 2),
+                          child: Text(announce['title'],
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w600,
+                            ),),
+                      ),
+                      subtitle: Transform.translate(
+                          offset: Offset(0, 22),
+                          child: Text(announce['message'],
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w300,
+                            ),),
+                      ),
                       trailing: PopupMenuButton(itemBuilder: (context) {
                         return [
                           PopupMenuItem(
