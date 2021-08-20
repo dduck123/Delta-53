@@ -45,9 +45,17 @@ class MyDrawer extends StatelessWidget {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => Calendar()));
+              if (context.widget == MyDrawer()) {
+                Navigator.of(context).pop();
+              } else {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => Calendar()),
+                );
+              }
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (BuildContext context) => Calendar()));
             },
           ),
           ListTile(
@@ -72,16 +80,18 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (BuildContext context) => Faq()));
+              // Navigator.of(context).push(
+              //     MaterialPageRoute(builder: (BuildContext context) => Faq()));
             },
           ),
           ListTile(
               leading: Icon(Icons.help, color: Colors.indigo[300], size: 24.0),
               title: const Text('FAQ'),
               onTap: () {
-                //TODO add functionality to bring up a faq popup
-                Navigator.pop(context);
+                if (context.widget == Faq()) {
+                  Navigator.pop(context);
+                }
+                //Navigator.pop(context);
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => Faq()));
               }),
