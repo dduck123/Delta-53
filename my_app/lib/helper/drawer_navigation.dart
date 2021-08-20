@@ -80,8 +80,8 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-              // Navigator.of(context).push(
-              //     MaterialPageRoute(builder: (BuildContext context) => Faq()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Announce()));
             },
           ),
           ListTile(

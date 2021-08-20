@@ -17,7 +17,6 @@ class Faq extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.indigo[300],
