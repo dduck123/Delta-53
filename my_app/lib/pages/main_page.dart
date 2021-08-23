@@ -1,139 +1,110 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
-import 'package:calendar_strip/calendar_strip.dart';
+import 'package:my_app/pages/calendar_widget.dart';
+import 'package:my_app/pages/event_editing_page.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:provider/provider.dart';
+import 'event_provider.dart';
 
 
 
-class MainPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        // Define the default brightness and colors.
-        brightness: Brightness.light,
-        primaryColor: Colors.indigo[300],
-      ),
-      home: MyHomePage(
+// class MyHomePage extends StatelessWidget {
+//
+//   static final String title = 'Calendar Events App';
+//   @override
+//   Widget build(BuildContext context) => MaterialApp(
+//     debugShowCheckedModeBanner: false,
+//     title: title,
+//     themeMode: ThemeMode.dark,
+//     darkTheme: ThemeData.dark(),
+//     home: CalendarWidget(),
+//   );
+//
+//
+// }
 
-      )
-    );
-  }
-}
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+// class MainPage extends StatelessWidget{
+//   Widget build(BuildContext context) => Scaffold(
+//     appBar: AppBar(
+//       title:Text(MyHomePage.title),
+//       centerTitle: true,
+//     ),
+//     body: CalendarWidget(),
+//     floatingActionButton: FloatingActionButton(
+//       child: Icon(Icons.add, color: Colors.white),
+//       backgroundColor:Colors.red,
+//       onPressed:() => Navigator.of(context).push(
+//         MaterialPageRoute(builder: (context) => EventEditingPage()),
+//       ),
+//     ),
+//   );
+// }
 
-class _MyHomePageState extends State<MyHomePage> {
-  DateTime startDate = DateTime.now().subtract(Duration(days: 2));
-  DateTime endDate = DateTime.now().add(Duration(days: 2));
-  DateTime selectedDate = DateTime.now().subtract(Duration(days: 0));
-  List<DateTime> markedDates = [
-    DateTime.now().subtract(Duration(days: 1)),
-    DateTime.now().subtract(Duration(days: 2)),
-    DateTime.now().add(Duration(days: 4))
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  onSelect(data) {
-    print("Selected Date -> $data");
-  }
-
-  onWeekSelect(data) {
-    print("Selected week starting at -> $data");
-  }
-
-  _monthNameWidget(monthName) {
-    return Container(
-      child: Text(
-        monthName,
-        style: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-          fontStyle: FontStyle.italic,
-        ),
-      ),
-      padding: EdgeInsets.only(top: 8, bottom: 4),
-    );
+//dont touch
+  class MyHomePage extends StatefulWidget {
+    @override
+    _MyHomePageState createState() => _MyHomePageState();
   }
 
-  getMarkedIndicatorWidget() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(
-        margin: EdgeInsets.only(left: 1, right: 1),
-        width: 7,
-        height: 7,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
-      ),
-      Container(
-        width: 7,
-        height: 7,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-      )
-    ]);
-  }
-
-  dateTileBuilder(
-      date, selectedDate, rowIndex, dayName, isDateMarked, isDateOutOfRange) {
-    bool isSelectedDate = date.compareTo(selectedDate) == 0;
-    Color fontColor = isDateOutOfRange ? Colors.black26 : Colors.black87;
-    TextStyle normalStyle =
-    TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: fontColor);
-    TextStyle selectedStyle = TextStyle(
-        fontSize: 17, fontWeight: FontWeight.w800, color: Colors.black87);
-    TextStyle dayNameStyle = TextStyle(fontSize: 14.5, color: fontColor);
-    List<Widget> _children = [
-      Text(dayName, style: dayNameStyle),
-      Text(date.day.toString(),
-          style: !isSelectedDate ? normalStyle : selectedStyle),
-    ];
-
-    if (isDateMarked == true) {
-      _children.add(getMarkedIndicatorWidget());
+  //dont touch
+  class _MyHomePageState extends State<MyHomePage> {
+    @override
+    void initState() {
+      super.initState();
     }
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 150),
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 8, left: 5, right: 5, bottom: 5),
-      decoration: BoxDecoration(
-        color: !isSelectedDate ? Colors.transparent : Colors.white70,
-        borderRadius: BorderRadius.all(Radius.circular(60)),
-      ),
-      child: Column(
-        children: _children,
-      ),
-    );
+    //main calendar widget
+    @override
+    Widget build(BuildContext context) {
+      // create: (context) => EventProvider(),
+      child:
+      return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => EventProvider()),
+        ],
+        child: MaterialApp(
+            home:
+            Scaffold(
+              appBar: AppBar(
+                title: Text("Main page"),
+              ),
+              body: CalendarWidget(),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add, color: Colors.white),
+                backgroundColor: Colors.red,
+                onPressed: () =>
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => EventEditingPage()),
+                    ),
+              ),
+              drawer: MyDrawer(),
+            ) //Scaffold
+        ),
+      );
+    }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Main page"),
-      ),
-      body: Container(
-          child: CalendarStrip(
-            startDate: startDate,
-            endDate: endDate,
-            selectedDate: selectedDate,
-            onDateSelected: onSelect,
-            onWeekSelected: onWeekSelect,
-            dateTileBuilder: dateTileBuilder,
-            iconColor: Colors.black87,
-            monthNameWidget: _monthNameWidget,
-            markedDates: markedDates,
-            containerDecoration: BoxDecoration(color: Colors.blue[100]),
-            addSwipeGesture: true,
-          )),
-      drawer: MyDrawer(),
-    );
+
+//To create a meeting inside the app
+  class Meeting {
+  final String title;
+  final String description;
+  final DateTime from;
+  final DateTime to;
+  final Color backgroundColor;
+  final bool isAllDay;
+
+  const Meeting({
+  required this.title,
+  required this.description,
+  required this.from,
+  required this.to,
+  this.backgroundColor = Colors.lightGreen,
+  this.isAllDay = false,
+  });
   }
-}
+
+
+

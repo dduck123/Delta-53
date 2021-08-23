@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
         isInProgress = false;
       });
       if (status == AuthResultStatus.successful) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MainPage()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage()));
       } else {
          final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
 
