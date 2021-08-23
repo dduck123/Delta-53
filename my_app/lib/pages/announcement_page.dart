@@ -29,7 +29,7 @@ class _AnnounceState extends State<Announce> {
         primaryColor: Colors.indigo[300],
       ),
       home: Scaffold(
-        backgroundColor: Colors.greenAccent[100],
+        backgroundColor: Colors.blue[100],
 
         appBar: AppBar(
           title: Text("Announcement"),
@@ -46,7 +46,7 @@ class _AnnounceState extends State<Announce> {
               children: snapshot.data!.docs.map((announce) {
                 return Card(
                   elevation: 10.0,
-                  shadowColor: Colors.purpleAccent,
+                  shadowColor: Colors.indigo,
                   margin:
                       EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
                   shape: RoundedRectangleBorder(
@@ -62,6 +62,7 @@ class _AnnounceState extends State<Announce> {
                           [_random.nextInt(4) * 100],
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 30.0),
+
                       title: Transform.translate(
                           offset: Offset(0, 2),
                           child: Text(announce['title'],
@@ -80,7 +81,11 @@ class _AnnounceState extends State<Announce> {
                               fontWeight: FontWeight.w300,
                             ),),
                       ),
-                      trailing: PopupMenuButton(itemBuilder: (context) {
+
+                      trailing: Wrap(
+                      spacing: 12, 
+                      children: <Widget>[
+                        PopupMenuButton(itemBuilder: (context) {
                         return [
                           PopupMenuItem(
                             value: "Edit",
@@ -150,6 +155,7 @@ class _AnnounceState extends State<Announce> {
                           announce.reference.delete();
                         }
                       }),
+                      ],),
                     ),
                   ),
                 );

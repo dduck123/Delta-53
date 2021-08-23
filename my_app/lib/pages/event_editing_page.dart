@@ -104,7 +104,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           ),
         ),
         Expanded(
-          flex:2,
+          flex: 2,
           child: buildDropDownField(
             text: Utils.toTime(fromDate),
             onClicked: () => pickFromDateTime(pickDate: false),
@@ -116,14 +116,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
       header: 'TO',
       child: Row(children: [
         Expanded(
-          flex:2,
+          flex: 2,
           child: buildDropDownField(
             text: Utils.toDate(toDate),
             onClicked: () => pickFromDateTime(pickDate: true),
           ),
         ),
         Expanded(
-          flex:2,
+          flex: 2,
           child: buildDropDownField(
             text: Utils.toTime(toDate),
             onClicked: () => pickFromDateTime(pickDate: false),
@@ -143,9 +143,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
 
   Future pickToDateTime({required bool pickDate}) async {
     final date = await pickDateTime(
-        toDate,
-        pickDate: pickDate,
-        firstDate: pickDate ? fromDate: null,
+      toDate,
+      pickDate: pickDate,
+      firstDate: pickDate ? fromDate : null,
     );
     if (date == null) return;
 
@@ -199,7 +199,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(header, style: TextStyle(fontWeight: FontWeight.bold))],
+        children: [Text(header, style: TextStyle(fontWeight: FontWeight.bold)),
+        child],
       );
 
   //for the save button
@@ -211,26 +212,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
         description: 'Description',
         from: fromDate,
         to: toDate,
-        isAllDay:false,
+        isAllDay: false,
       );
 
       final provider = Provider.of<EventProvider>(context, listen: false);
       provider.addEvent(event);
       Navigator.of(context).pop();
     }
-
-
+  }
 }
-
-
-
-
-
-
-
-
-}
-
 
 //HELPERS
 class Utils {
