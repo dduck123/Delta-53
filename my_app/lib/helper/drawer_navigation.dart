@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/announcement_page.dart';
 import 'package:my_app/pages/logout_page.dart';
 import 'package:my_app/pages/main_page.dart';
-import 'package:my_app/pages/login_page.dart';
 import 'package:my_app/pages/stats_page.dart';
 import "package:my_app/pages/faq_page.dart";
 import 'package:my_app/pages/leaves_page.dart';
@@ -24,7 +23,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MyHomePage()));
+                  builder: (BuildContext context) => CalendarMainPage()));
             },
           ),
           ListTile(

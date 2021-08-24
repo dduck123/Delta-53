@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_app/helper/constants.dart';
-import  'package:provider/provider.dart';
 import 'package:my_app/pages/authentication_service.dart';
 import 'package:my_app/pages/main_page.dart';
 
@@ -163,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
         isInProgress = false;
       });
       if (status == AuthResultStatus.successful) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyHomePage()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CalendarMainPage()));
       } else {
          final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
 

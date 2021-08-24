@@ -43,30 +43,33 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        leading: CloseButton(),
-        actions: buildEditingActions(),
-      ),
-      body: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  buildTitle(),
-                  SizedBox(height: 12),
-                  buildDateTimePickers(),
-                ],
-              ))));
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          leading: CloseButton(),
+          actions: buildEditingActions(),
+
+        ),
+        body: SingleChildScrollView(
+            padding: EdgeInsets.all(12),
+            child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    buildTitle(),
+                    SizedBox(height: 12),
+                    buildDateTimePickers(),
+                  ],
+                ))));
+  }
 
   //save and close buttons
   List<Widget> buildEditingActions() => [
         ElevatedButton.icon(
             icon: Icon(Icons.done),
             label: Text('SAVE'),
-            onPressed: saveForm,
+            onPressed:saveForm,
             style: ElevatedButton.styleFrom(
               primary: Colors.transparent,
               shadowColor: Colors.transparent,
@@ -80,7 +83,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
           border: UnderlineInputBorder(),
           hintText: 'Add Meeting Title',
         ),
-        onFieldSubmitted: (_) => saveForm,
+        onFieldSubmitted: (_) => saveForm(),
         validator: (title) =>
             title != null && title.isEmpty ? 'Title cannot be empty' : null,
         controller: titleController,
@@ -199,8 +202,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
   }) =>
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(header, style: TextStyle(fontWeight: FontWeight.bold)),
-        child],
+        children: [
+          Text(header, style: TextStyle(fontWeight: FontWeight.bold)),
+          child
+        ],
       );
 
   //for the save button
@@ -214,7 +219,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
         to: toDate,
         isAllDay: false,
       );
-
       final provider = Provider.of<EventProvider>(context, listen: false);
       provider.addEvent(event);
       Navigator.of(context).pop();
