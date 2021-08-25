@@ -130,24 +130,25 @@ class _EventEditingPageState extends State<EventEditingPage> {
           flex: 2,
           child: buildDropDownField(
             text: Utils.toDate(toDate),
-            onClicked: () => pickFromDateTime(pickDate: true),
+            onClicked: () => pickToDateTime(pickDate: true),
           ),
         ),
         Expanded(
           flex: 2,
           child: buildDropDownField(
             text: Utils.toTime(toDate),
-            onClicked: () => pickFromDateTime(pickDate: false),
+            onClicked: () => pickToDateTime(pickDate: false),
           ),
         ),
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(fromDate, pickDate: pickDate);
+    final date = await pickDateTime(
+        fromDate,
+        pickDate: pickDate);
     if (date == null) return;
     if (date.isAfter(toDate)) {
-      toDate =
-          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() => fromDate = date);
   }
