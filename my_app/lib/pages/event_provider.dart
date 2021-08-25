@@ -14,6 +14,7 @@ class EventProvider extends ChangeNotifier{
 
   List<Meeting> get eventsOfSelectedDate => _events;
 
+
   void addEvent(Meeting event){
     _events.add(event);
     notifyListeners();

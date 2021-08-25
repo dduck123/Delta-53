@@ -9,10 +9,10 @@ class EventEditingPage extends StatefulWidget {
 
   const EventEditingPage({
     Key? key,
-    this.meeting, required Meeting event,
+    this.meeting,
+    Meeting? event,
   }) : super(key: key);
 
-  get event => null;
 
   @override
   _EventEditingPageState createState() => _EventEditingPageState();
@@ -228,14 +228,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
         to: toDate,
         isAllDay: false,
       );
-      final isEditing = widget.event != null;
+      final isEditing = widget.meeting != null;
       final provider = Provider.of<EventProvider>(context, listen: false);
 
       if (isEditing) {
-        provider.editEvent(event, widget.event!);
+        provider.editEvent(event, widget.meeting!);
         Navigator.of(context).pop();
       } else {
         provider.addEvent(event);
+        Navigator.of(context).pop();
       }
     }
   }

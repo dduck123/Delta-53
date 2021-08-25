@@ -42,34 +42,41 @@ class EventViewingPage extends StatelessWidget {
   Widget buildDateTime(Meeting event) {
     return Column(
       children: [
-        buildDate(event.isAllDay ? 'All-day' : 'From', event.from),
-        if(!event.isAllDay) buildDate('To', event.to),
+        buildDate(event.isAllDay ? 'All-day' : 'From: ', event.from),
+        if(!event.isAllDay) buildDate('To: ', event.to),
       ],
     );
   }
+  Widget buildDate(String title, DateTime date) => Row(
+      children: [
+        Text(title),
+        Text(Utils.toDate(date) + " " + Utils.toTime(date),)
+      ],
 
-  Widget buildDate(String title, DateTime date) {
+  );
 
 
-  }
 
 
-  List<Widget> buildViewingActions(BuildContext context, Meeting event) {
+  List<Widget> buildViewingActions(BuildContext context, Meeting event) =>[
     IconButton(
       icon: Icon(Icons.edit),
       onPressed: () =>
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => EventEditingPage(event: event),
+
             ),
           ),
-    );
+
+    ),
     IconButton(
         icon: Icon(Icons.delete),
         onPressed: () {
           final provider = Provider.of<EventProvider>(context, listen: false);
           provider.deleteEvent(event);
+          Navigator.of(context).pop();
         }
-    );
-  }
+    ),
+  ];
 }
