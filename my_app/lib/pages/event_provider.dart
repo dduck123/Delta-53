@@ -7,9 +7,28 @@ class EventProvider extends ChangeNotifier{
 
   List<Meeting> get events => _events;
 
+  DateTime _selectedDate = DateTime.now();
+  DateTime get selectedDate => _selectedDate;
+
+  void setDate(DateTime date) => _selectedDate = date;
+
+  List<Meeting> get eventsOfSelectedDate => _events;
+
   void addEvent(Meeting event){
     _events.add(event);
-
     notifyListeners();
   }
+
+  void deleteEvent(Meeting event) {
+    _events.remove(event);
+    notifyListeners();
+  }
+
+  void editEvent(Meeting newEvent, Meeting oldEvent){
+    final index = _events.indexOf(oldEvent);
+    _events[index] = newEvent;
+    notifyListeners();
+  }
+
+
 }

@@ -9,8 +9,10 @@ class EventEditingPage extends StatefulWidget {
 
   const EventEditingPage({
     Key? key,
-    this.meeting,
+    this.meeting, required Meeting event,
   }) : super(key: key);
+
+  get event => null;
 
   @override
   _EventEditingPageState createState() => _EventEditingPageState();
@@ -33,6 +35,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.meeting == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 2));
+    }else{
+      final event = widget.meeting!;
+
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
     }
   }
 
@@ -219,9 +227,15 @@ class _EventEditingPageState extends State<EventEditingPage> {
         to: toDate,
         isAllDay: false,
       );
+      final isEditing = widget.event != null;
       final provider = Provider.of<EventProvider>(context, listen: false);
-      provider.addEvent(event);
-      Navigator.of(context).pop();
+
+      if (isEditing) {
+        provider.editEvent(event, widget.event!);
+        Navigator.of(context).pop();
+      } else {
+        provider.addEvent(event);
+      }
     }
   }
 }
