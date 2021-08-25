@@ -3,6 +3,7 @@ import 'package:my_app/pages/calendar_widget.dart';
 import 'package:my_app/pages/event_editing_page.dart';
 import 'package:provider/provider.dart';
 import 'event_provider.dart';
+import 'package:my_app/helper/drawer_navigation.dart';
 
 class CalendarMainPage extends StatelessWidget {
   static final String title = "Calendar event";
@@ -37,6 +38,7 @@ class MainPage extends StatelessWidget {
             backgroundColor: Colors.indigo,
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => EventEditingPage()))),
+        drawer: MyDrawer(),
       );
 }
 

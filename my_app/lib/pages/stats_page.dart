@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
-
 class Stats extends StatelessWidget {
   const Stats({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
+      theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.light,
         primaryColor: Colors.indigo[300],
-        ),
-
-        home: DefaultTabController(
+      ),
+      home: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
@@ -24,14 +22,14 @@ class Stats extends StatelessWidget {
               tabs: [
                 Tab(
                   icon: Icon(Icons.monetization_on_outlined),
-                  text: "Payslip",
+                  text: "Payslips",
                 ),
                 Tab(
                   icon: Icon(Icons.list_alt_outlined),
                   text: "Attendance and Leaves",
                 ),
                 Tab(
-                    icon: Icon(Icons.person),
+                  icon: Icon(Icons.person),
                   text: "Personal data",
                 ),
               ],
@@ -48,7 +46,6 @@ class Stats extends StatelessWidget {
           drawer: MyDrawer(),
         ),
       ),
-
     );
   }
 }
