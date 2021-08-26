@@ -72,7 +72,8 @@ class _PayslipState extends State<Payslip> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 50)),
                 subtitle: Text(
-                  'numbers will be pulled from database',
+                  '\$4000',
+                  //TODO link this to database to show payslip of the user
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 50),
                 ),
