@@ -100,73 +100,54 @@ class _LeavesState extends State<Leaves> {
       children: <Widget>[
         Container(
           color: Colors.grey[350],
+          height: 200,
+          width: double.infinity,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //everything inside this row will line up horizontally
-            children: [
-              Align(
-                  //set alignment of the CircularPercentIndicator to the left side withing this row
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                      //SizedBox to contain the PercentIndicator
-                      height: 200.0,
-                      width: 200.0,
-                      child: CircularPercentIndicator(
-                        radius: 120.0,
-                        lineWidth: 15.0,
-                        percent: 0.8,
-                        center: new Text('24/30'),
-                        progressColor: Colors.tealAccent[400],
-                      ))),
-              // SizedBox(
-              //   //change size of CircularProgressIndicator with height and width values oh its parent SizedBox
-              //   height: 200.0,
-              //   width: 200.0,
-              //   child: Stack(
-              //     children: <Widget>[
-              //       Align(
-              //         alignment: Alignment.centerLeft,
-              //         child: Container(
-              //           color: Colors.red,
-              //           width: 200,
-              //           height: 200,
-              //           child: new CircularProgressIndicator(
-              //             strokeWidth: 20,
-              //             value: 0.3,
-              //             color: Colors.teal[300],
-              //             backgroundColor: Colors.grey[400],
-              //           ),
-              //         ),
-              //       ),
-              //       Align(
-              //           alignment: Alignment.centerLeft,
-              //           child: Text("Grab leave days from database")),
-              //     ],
-              //   ),
-              // ),
-              SizedBox(
-                  child: Container(
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            'LEAVES',
-                            style: TextStyle(
-                                fontSize: 40, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.right,
-                          ))))
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircularPercentIndicator(
+                radius: 120.0,
+                lineWidth: 15.0,
+                percent: 0.8,
+                center: new Text('24/30'),
+                progressColor: Colors.tealAccent[400],
+                backgroundColor: Colors.grey[500],
+              ),
+              Padding(
+                //the spacing between Text and Percent indicator
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+              ),
+              Text('LEAVES',
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
             ],
           ),
         ),
-        SizedBox(
-            height: 200.0,
-            width: 200.0,
-            child: CircularPercentIndicator(
-              radius: 120.0,
-              lineWidth: 15.0,
-              percent: 0.8,
-              center: new Text('24/30'),
-              progressColor: Colors.tealAccent[400],
-            )),
+        //new row Attendance related widgets
+        Container(
+          color: Colors.grey[350],
+          height: 200,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('ATTENDANCE',
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+              Padding(
+                //the spacing between Text and Percent indicator
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+              ),
+              CircularPercentIndicator(
+                radius: 120.0,
+                lineWidth: 15.0,
+                percent: 0.8,
+                center: new Text('24/30'),
+                progressColor: Colors.red[200],
+                backgroundColor: Colors.grey[500],
+              ),
+            ],
+          ),
+        ),
+        //Payslip row
         Card(
             child: Column(
           mainAxisSize: MainAxisSize.min,
