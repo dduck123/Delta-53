@@ -30,6 +30,7 @@ dependencies:
   syncfusion_flutter_calendar: ^19.2.56
   timezone: ^0.7.0
   intl: ^0.17.0
+  percent_indicator: "^2.1.7+2"
 
 
  #firebase - newly added

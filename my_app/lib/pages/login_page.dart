@@ -7,8 +7,6 @@ import 'package:my_app/pages/main_page.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
-
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -17,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final myControllerEmail = TextEditingController();
   final myControllerPass = TextEditingController();
   String message = "";
- //v2
+  //v2
   bool isInProgress = false;
 
   Widget _buildEmailTF() {
@@ -135,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   validate(BuildContext ctx) {
     if (myControllerEmail.text != "" && myControllerPass.text != "") {
-      if (myControllerEmail.text == "delta@53.com" &&
+      if (myControllerEmail.text == "delta-53@gmail.com" &&
           myControllerPass.text == "delta53") {
         return true;
       }
@@ -156,60 +154,56 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         isInProgress = true;
       });
-      final status =
-      await FirebaseAuthHelper().login(email: myControllerEmail.text.trim(), pass: myControllerPass.text.trim());
+      final status = await FirebaseAuthHelper().login(
+          email: myControllerEmail.text.trim(),
+          pass: myControllerPass.text.trim());
       setState(() {
         isInProgress = false;
       });
       if (status == AuthResultStatus.successful) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CalendarMainPage()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => CalendarMainPage()));
       } else {
-         final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
+        final errorMsg = AuthExceptionHandler.generateExceptionMessage(status);
 
-              showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          backgroundColor: Colors.indigo,
-                          title: Center(
-                            child:
-                            Text('Alert',
-                              style:
-                              TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-
-                              )
-                            )
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  backgroundColor: Colors.indigo,
+                  title: Center(
+                      child: Text('Alert',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ))),
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          errorMsg,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
                           ),
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children : <Widget>[
-                              Expanded(
-                                child: Text(
-                                  errorMsg,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-
-                          actions: <Widget>[
-                            RaisedButton(
-                              color: Colors.white,
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ));
+                        ),
+                      )
+                    ],
+                  ),
+                  actions: <Widget>[
+                    RaisedButton(
+                      color: Colors.white,
+                      onPressed: () => Navigator.pop(context, 'OK'),
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ));
       }
     }
   }
+
   //v2
   Widget _buildLoginBtn() {
     return Container(
@@ -236,13 +230,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
-
-
-
-
-
 
   // Widget _buildLoginBtn() {
   //   return Container(
