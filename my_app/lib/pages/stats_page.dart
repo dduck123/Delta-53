@@ -63,7 +63,7 @@ class _PayslipState extends State<Payslip> {
   Widget build(BuildContext context) {
     return Card(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
           Container(
               color: Colors.grey[350],
@@ -72,7 +72,7 @@ class _PayslipState extends State<Payslip> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 50)),
                 subtitle: Text(
-                  '\$4000',
+                  '\$4000.00',
                   //TODO link this to database to show payslip of the user
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 50),
@@ -94,84 +94,100 @@ class _LeavesState extends State<Leaves> {
   Widget build(BuildContext context) {
     return Container(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      //set all children within to line up vertically
+      mainAxisAlignment: MainAxisAlignment
+          .start, //starting point for the first row in this column
       children: <Widget>[
-        Row(
-          children: [
-            Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                    height: 200.0,
-                    width: 200.0,
-                    child: CircularPercentIndicator(
-                      radius: 60.0,
-                      lineWidth: 5.0,
-                      percent: 1.0,
-                      center: new Text('100'),
-                      progressColor: Colors.teal[300],
-                    ))),
-            SizedBox(
-              //change size of CircularProgressIndicator with height and width values oh its parent SizedBox
-              height: 200.0,
-              width: 200.0,
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      color: Colors.red,
-                      width: 200,
-                      height: 200,
-                      child: new CircularProgressIndicator(
-                        strokeWidth: 20,
-                        value: 0.3,
-                        color: Colors.teal[300],
-                        backgroundColor: Colors.grey[400],
-                      ),
-                    ),
-                  ),
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Grab leave days from database")),
-                ],
-              ),
-            ),
-            SizedBox(
-                child: Container(
-                    color: Colors.red,
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          'Leaves',
-                          style: TextStyle(fontSize: 50),
-                          textAlign: TextAlign.right,
-                        ))))
-          ],
+        Container(
+          color: Colors.grey[350],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //everything inside this row will line up horizontally
+            children: [
+              Align(
+                  //set alignment of the CircularPercentIndicator to the left side withing this row
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                      //SizedBox to contain the PercentIndicator
+                      height: 200.0,
+                      width: 200.0,
+                      child: CircularPercentIndicator(
+                        radius: 120.0,
+                        lineWidth: 15.0,
+                        percent: 0.8,
+                        center: new Text('24/30'),
+                        progressColor: Colors.tealAccent[400],
+                      ))),
+              // SizedBox(
+              //   //change size of CircularProgressIndicator with height and width values oh its parent SizedBox
+              //   height: 200.0,
+              //   width: 200.0,
+              //   child: Stack(
+              //     children: <Widget>[
+              //       Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Container(
+              //           color: Colors.red,
+              //           width: 200,
+              //           height: 200,
+              //           child: new CircularProgressIndicator(
+              //             strokeWidth: 20,
+              //             value: 0.3,
+              //             color: Colors.teal[300],
+              //             backgroundColor: Colors.grey[400],
+              //           ),
+              //         ),
+              //       ),
+              //       Align(
+              //           alignment: Alignment.centerLeft,
+              //           child: Text("Grab leave days from database")),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                  child: Container(
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            'LEAVES',
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.right,
+                          ))))
+            ],
+          ),
         ),
-        // SizedBox(
-        //   height: 200.0,
-        //   child: Stack(
-        //     children: <Widget>[
-        //       Align(
-        //         alignment: Alignment.centerLeft,
-        //         child: Container(
-        //           width: 200,
-        //           height: 200,
-        //           child: Padding(
-        //             padding: EdgeInsets.all(12.0),
-        //             child: new CircularProgressIndicator(
-        //               strokeWidth: 20,
-        //               value: 0.3,
-        //               color: Colors.teal[300],
-        //               backgroundColor: Colors.grey[400],
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       Center(child: Text("Grab leave days from database")),
-        //     ],
-        //   ),
-        // ),
+        SizedBox(
+            height: 200.0,
+            width: 200.0,
+            child: CircularPercentIndicator(
+              radius: 120.0,
+              lineWidth: 15.0,
+              percent: 0.8,
+              center: new Text('24/30'),
+              progressColor: Colors.tealAccent[400],
+            )),
+        Card(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              child: ListTile(
+                title: Text(
+                  'Payslip',
+                  style: TextStyle(fontSize: 50),
+                  textAlign: TextAlign.center,
+                ),
+                subtitle: Text(
+                  '\$4000',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 50),
+                ),
+              ),
+              color: Colors.grey[350],
+            ),
+          ],
+        )),
       ],
     ));
   }
