@@ -10,7 +10,9 @@ class EventEditingPage extends StatefulWidget {
   const EventEditingPage({
     Key? key,
     this.meeting,
+    Meeting? event,
   }) : super(key: key);
+
 
   @override
   _EventEditingPageState createState() => _EventEditingPageState();
@@ -33,6 +35,12 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.meeting == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 2));
+    }else{
+      final event = widget.meeting!;
+
+      titleController.text = event.title;
+      fromDate = event.from;
+      toDate = event.to;
     }
   }
 
@@ -122,24 +130,25 @@ class _EventEditingPageState extends State<EventEditingPage> {
           flex: 2,
           child: buildDropDownField(
             text: Utils.toDate(toDate),
-            onClicked: () => pickFromDateTime(pickDate: true),
+            onClicked: () => pickToDateTime(pickDate: true),
           ),
         ),
         Expanded(
           flex: 2,
           child: buildDropDownField(
             text: Utils.toTime(toDate),
-            onClicked: () => pickFromDateTime(pickDate: false),
+            onClicked: () => pickToDateTime(pickDate: false),
           ),
         ),
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(fromDate, pickDate: pickDate);
+    final date = await pickDateTime(
+        fromDate,
+        pickDate: pickDate);
     if (date == null) return;
     if (date.isAfter(toDate)) {
-      toDate =
-          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() => fromDate = date);
   }
@@ -219,9 +228,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
         to: toDate,
         isAllDay: false,
       );
+      final isEditing = widget.meeting != null;
       final provider = Provider.of<EventProvider>(context, listen: false);
-      provider.addEvent(event);
-      Navigator.of(context).pop();
+
+      if (isEditing) {
+        provider.editEvent(event, widget.meeting!);
+        Navigator.of(context).pop();
+      } else {
+        provider.addEvent(event);
+        Navigator.of(context).pop();
+      }
     }
   }
 }
