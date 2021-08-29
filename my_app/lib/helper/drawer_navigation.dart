@@ -60,7 +60,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.assessment_outlined,
                 color: Colors.indigo[300], size: 24.0),
-            title: const Text('Work statistics'),
+            title: const Text('User Profile'),
             onTap: () {
               // Update the state of the app
               // ...

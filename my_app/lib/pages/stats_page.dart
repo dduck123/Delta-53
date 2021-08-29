@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
+import 'package:my_app/helper/employee.dart';
 
 class Stats extends StatelessWidget {
   const Stats({Key? key}) : super(key: key);
@@ -34,13 +35,13 @@ class Stats extends StatelessWidget {
                 ),
               ],
             ),
-            title: const Text('User Statistics'),
+            title: const Text('Profile'),
           ),
           body: const TabBarView(
             children: [
               Text("payslip"),
               Text("attendance and leaves"),
-              Text("Personal information"),
+              Employee(),
             ],
           ),
           drawer: MyDrawer(),

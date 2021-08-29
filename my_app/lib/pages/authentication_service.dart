@@ -21,6 +21,7 @@ class FirebaseAuthHelper {
   //added late infront
   AuthResultStatus _status = AuthResultStatus.test;
 
+
 //   Future<String> login({email, pass}) async {
 //     try {
 //       final authResult =
@@ -46,6 +47,7 @@ class FirebaseAuthHelper {
     try {
       final authResult = await _auth.signInWithEmailAndPassword(email: email, password: pass);
       if (authResult.user != null) {
+        print("user id: " + authResult.user!.uid);
           _status = AuthResultStatus.successful;
         } else {
           _status = AuthResultStatus.undefined;
