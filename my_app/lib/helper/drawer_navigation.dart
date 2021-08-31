@@ -4,7 +4,8 @@ import 'package:my_app/pages/logout_page.dart';
 import 'package:my_app/pages/main_page.dart';
 import 'package:my_app/pages/stats_page.dart';
 import "package:my_app/pages/faq_page.dart";
-import 'package:my_app/pages/leaves_page.dart';
+import 'package:my_app/pages/leave_main_page.dart';
+//import 'package:my_app/pages/leaves_page.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -50,7 +51,7 @@ class MyDrawer extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (BuildContext context) => Calendar()),
+                      builder: (BuildContext context) => LeaveMainPage()),
                 );
               }
               // Navigator.of(context).push(MaterialPageRoute(
@@ -60,7 +61,7 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.assessment_outlined,
                 color: Colors.indigo[300], size: 24.0),
-            title: const Text('Work statistics'),
+            title: const Text('User Profile'),
             onTap: () {
               // Update the state of the app
               // ...

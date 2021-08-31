@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
-import 'dart:math';
+
 
 class Announce extends StatefulWidget {
   const Announce({Key? key}) : super(key: key);
@@ -16,7 +16,6 @@ class _AnnounceState extends State<Announce> {
   final textControllerMessage = TextEditingController();
   var textTitle = TextEditingController();
   var textMessage = TextEditingController();
-  final _random = Random();
 
   CollectionReference announcements =
       FirebaseFirestore.instance.collection('Announcements');
@@ -29,7 +28,7 @@ class _AnnounceState extends State<Announce> {
         primaryColor: Colors.indigo[300],
       ),
       home: Scaffold(
-        backgroundColor: Colors.blue[100],
+        //backgroundColor: Colors.blue[100],
 
         appBar: AppBar(
           title: Text("Announcement"),
@@ -42,13 +41,12 @@ class _AnnounceState extends State<Announce> {
             }
             return GridView.count(
               crossAxisCount: 2,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(5),
               children: snapshot.data!.docs.map((announce) {
                 return Card(
                   elevation: 10.0,
                   shadowColor: Colors.indigo,
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
+                  margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
                   ),
@@ -57,17 +55,14 @@ class _AnnounceState extends State<Announce> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50.0),
                       ),
-                      tileColor: Colors.primaries[
-                              _random.nextInt(Colors.primaries.length)]
-                          [_random.nextInt(4) * 100],
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 30.0),
+                      tileColor: Colors.blue[100],
+                    //      horizontal: 20.0, vertical: 30.0),
 
                       title: Transform.translate(
-                          offset: Offset(0, 2),
+                          offset: Offset(4, 2),
                           child: Text(announce['title'],
                             style: TextStyle(
-                              fontSize: 30.0,
+                              fontSize: 15.0,
                               color: Colors.black87,
                               fontWeight: FontWeight.w600,
                             ),),
@@ -76,7 +71,7 @@ class _AnnounceState extends State<Announce> {
                           offset: Offset(0, 22),
                           child: Text(announce['message'],
                             style: TextStyle(
-                              fontSize: 24.0,
+                              fontSize: 15.0,
                               color: Colors.black87,
                               fontWeight: FontWeight.w300,
                             ),),
