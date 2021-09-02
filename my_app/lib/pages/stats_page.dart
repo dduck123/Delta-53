@@ -99,52 +99,46 @@ class _LeavesState extends State<Leaves> {
   Widget build(BuildContext context) {
     CollectionReference employees =
         FirebaseFirestore.instance.collection('Employees');
-    return Container(
-        child: Column(
-      //set all children within to line up vertically
-      mainAxisAlignment: MainAxisAlignment
-          .spaceEvenly, //starting point for the first row in this column
-      children: [
-        Center(
-            child: FutureBuilder<DocumentSnapshot>(
-                future: employees.doc(currentUserID).get(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    Map<String, dynamic> data =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    Container(
-                      color: Colors.grey[350],
-                      height: 200,
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularPercentIndicator(
-                            radius: 120.0,
-                            lineWidth: 15.0,
-                            percent: 0.8,
-                            center: new Text('24/30',
-                                style: TextStyle(fontSize: 17)),
-                            //TODO link this up to database somehow
-                            progressColor: Colors.tealAccent[400],
-                            backgroundColor: Colors.grey[500],
-                          ),
-                          Padding(
-                            //the spacing between Text and Percent indicator
-                            padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          ),
-                          Text('LEAVES',
-                              style: TextStyle(
-                                  fontSize: 40, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    );
+    return Scaffold(
+        body: Container(
+      child: Center(
+          child: FutureBuilder<DocumentSnapshot>(
+              future: employees.doc(currentUserID).get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+
+                if (snapshot.hasData && !snapshot.data!.exists) {
+                  return Text("Document does not exist");
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  Map<String, dynamic> data =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  return ListView(children: <Widget>[
+                    CircularPercentIndicator(
+                      radius: 120.0,
+                      lineWidth: 15.0,
+                      percent: 0.8,
+                      center: new Text('24/30', style: TextStyle(fontSize: 17)),
+                      //TODO link this up to database somehow
+                      progressColor: Colors.tealAccent[400],
+                      backgroundColor: Colors.grey[500],
+                    ),
+                    Padding(
+                      //the spacing between Text and Percent indicator
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    ),
+                    Text('LEAVES',
+                        style: TextStyle(
+                            fontSize: 40, fontWeight: FontWeight.bold)),
+
                     Divider(
                       thickness: 3,
                       indent: 20,
                       endIndent: 20,
-                    );
+                    ),
                     //new row Attendance related widgets
                     Container(
                       color: Colors.grey[350],
@@ -171,12 +165,12 @@ class _LeavesState extends State<Leaves> {
                           ),
                         ],
                       ),
-                    );
+                    ),
                     Divider(
                       thickness: 3,
                       indent: 20,
                       endIndent: 20,
-                    );
+                    ),
                     //Payslip row
                     Container(
                         height: 200,
@@ -197,11 +191,11 @@ class _LeavesState extends State<Leaves> {
                               ),
                             ),
                           ],
-                        ));
-                  }
-                  return Text('loading');
-                })),
-      ],
+                        ))
+                  ]);
+                }
+                return Text('loading');
+              })),
     ));
   }
 }
