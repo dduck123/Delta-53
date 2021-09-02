@@ -185,7 +185,7 @@ class _LeavesState extends State<Leaves> {
                                 textAlign: TextAlign.center,
                               ),
                               subtitle: Text(
-                                "${data['payslip']}",
+                                "${data['name']}",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 50),
                               ),
