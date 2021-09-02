@@ -5,6 +5,7 @@ import 'package:my_app/pages/main_page.dart';
 import 'package:my_app/pages/stats_page.dart';
 import "package:my_app/pages/faq_page.dart";
 import 'package:my_app/pages/leave_main_page.dart';
+import 'package:my_app/pages/requests_page.dart';
 //import 'package:my_app/pages/leaves_page.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -35,6 +36,8 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Requests()));
             },
           ),
           ListTile(
