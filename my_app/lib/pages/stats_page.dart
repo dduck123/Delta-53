@@ -198,7 +198,7 @@ class _LeavesState extends State<Leaves> {
                               textAlign: TextAlign.center,
                             ),
                             subtitle: Text(
-                              '\$${data['payslip']}',
+                              '\$' + (data['payslip']).toStringAsFixed(2),
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 50),
                             ),
