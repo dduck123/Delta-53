@@ -106,19 +106,13 @@ class _LeavesState extends State<Leaves> {
               future: employees.doc(currentUserID).get(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return Text("Something went wrong");
-                }
-
-                if (snapshot.hasData && !snapshot.data!.exists) {
-                  return Text("Document does not exist");
-                }
+               
                 if (snapshot.connectionState == ConnectionState.done) {
                   Map<String, dynamic> data =
                       snapshot.data!.data() as Map<String, dynamic>;
                   return ListView(children: <Widget>[
                     CircularPercentIndicator(
-                      radius: 120.0,
+                     radius: 120.0,
                       lineWidth: 15.0,
                       percent: 0.8,
                       center: new Text('24/30', style: TextStyle(fontSize: 17)),
