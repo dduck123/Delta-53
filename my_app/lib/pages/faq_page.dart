@@ -2,14 +2,45 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
-
 List _elements = [
-  {'qns': 'Who else can access my data', 'ans': 'Your data is linked to your login only. This is dependant on you being the only person who knows your Delta password information. ','cat': 'How to use'},
-  {'qns': 'What if i need to change my personal details', 'ans': 'Your name and date of birth are key items of data which can only be amended with relevant supporting documentation. Should you need to change these details, please refer to the HR department for further guidance.','cat': 'How to use'},
-  {'qns': 'What do i do if i think my absence record is incorrect', 'ans': 'Please contact your manager or departmental admin for more information', 'cat': 'How to use'},
-  {'qns': 'Where to report a person...', 'ans': 'Contact 911','cat': 'Contact support'},
-  {'qns': 'HELPME', 'ans': 'NO','cat': 'Contact support'},
-  {'qns': 'Daniel Miller is who?', 'ans': 'A GOAT','cat': 'How to use'},
+  {
+    'qns': 'How to use the Announcement page?',
+    'ans':
+        'The announcement is a place where employees can be notified of any new announcements. To make an announcement, press the button at the bottom right to add an announcement. Enter the title and then add your description, press the add button to have your announcement inside the page!',
+    'cat': 'How to use'
+  },
+  {
+    'qns':
+        'Oh no! I wish to edit or delete the announcement! Is that possible?',
+    'ans':
+        'Yes it is possible! Please click the three dots at the side to edit or delete the announcement you have made and then hit update!',
+    'cat': 'How to use'
+  },
+  {
+    'qns': 'What does the calendar at the Home page do?',
+    'ans':
+        'The calendar at the home page lets the user (you) to know the current event on the current day. You can add an event by clicking the add button at the bottom right!',
+    'cat': 'How to use'
+  },
+  {
+    'qns': 'Who do I notify to change password?',
+    'ans':
+        'If you wish to change your password, please drop an email to our HR executive! The email is, david.toh@delta53.com or call 98334510!',
+    'cat': 'Contact support'
+  },
+  {
+    'qns': 'How do I make an account?',
+    'ans':
+        'Press the Contact Administrator at the bottom of the login page, the HR Executive will be notified to assist you!',
+    'cat': 'Contact support'
+  },
+  {
+    'qns':
+        'Does the app allow me to see my leaves and pay? Or do I need to ask the HR Executive for that matter?',
+    'ans':
+        'We are aware of the issue and we are happy to let you know that if you click on the User Profile, you can see your leaves and payslip. Each option with just a press of button away.',
+    'cat': 'How to use'
+  },
 ];
 
 class Faq extends StatelessWidget {
@@ -28,10 +59,10 @@ class Faq extends StatelessWidget {
         body: GroupedListView<dynamic, String>(
           elements: _elements,
           groupBy: (element) => element['cat'],
-          groupComparator: (value1, value2) => value2.compareTo(value1),
+          groupComparator: (value1, value2) => value1.compareTo(value2),
           itemComparator: (item1, item2) =>
               item1['qns'].compareTo(item2['qns']),
-          order: GroupedListOrder.DESC,
+          order: GroupedListOrder.ASC,
           useStickyGroupSeparators: true,
           groupSeparatorBuilder: (String value) => Padding(
             padding: const EdgeInsets.all(20.0),
@@ -49,18 +80,19 @@ class Faq extends StatelessWidget {
                 child: ListTile(
                   tileColor: Colors.blue[100],
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                   leading: Icon(Icons.account_circle),
                   title: Text(element['qns']),
                   trailing: Icon(Icons.arrow_forward),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreen(element['qns'],element['ans']),
-                        ),
-                      );
-                    },
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            DetailScreen(element['qns'], element['ans']),
+                      ),
+                    );
+                  },
                 ),
               ),
             );
@@ -75,8 +107,7 @@ class Faq extends StatelessWidget {
 class DetailScreen extends StatelessWidget {
   final String qns;
   final String ans;
-  DetailScreen(this.qns,this.ans);
-
+  DetailScreen(this.qns, this.ans);
 
   @override
   Widget build(BuildContext context) {
