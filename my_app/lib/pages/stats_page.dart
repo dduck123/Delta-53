@@ -116,15 +116,19 @@ class _LeavesState extends State<Leaves> {
               return ListView(
                 children: <Widget>[
                   Container(
+                    // height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                     color: Colors.grey[350],
                     height: 200,
-                    width: double.infinity,
+                    // width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         CircularPercentIndicator(
                           radius: 120.0,
                           lineWidth: 15.0,
+                          animation: true,
+                          animationDuration: 600,
                           percent: (data['leaves'] / 30),
                           center: new Text('${data['leaves']}/30',
                               style: TextStyle(fontSize: 17)),
@@ -173,7 +177,8 @@ class _LeavesState extends State<Leaves> {
                                       .toStringAsFixed(2) +
                                   "%"),
                               style: TextStyle(fontSize: 17)),
-                          //TODO link this up to database somehow
+                          animation: true,
+                          animationDuration: 600,
                           progressColor: Colors.red[200],
                           backgroundColor: Colors.grey[500],
                         ),
