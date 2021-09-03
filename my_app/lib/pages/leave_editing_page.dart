@@ -77,7 +77,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   List<Widget> buildEditingActions() => [
     ElevatedButton.icon(
         icon: Icon(Icons.done),
-        label: Text('SAVE'),
+        label: Text('SUBMIT'),
         onPressed:saveForm,
         style: ElevatedButton.styleFrom(
           primary: Colors.transparent,
