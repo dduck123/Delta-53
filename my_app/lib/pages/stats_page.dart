@@ -33,7 +33,7 @@ class Stats extends StatelessWidget {
                 ),
                 Tab(
                   icon: Icon(Icons.list_alt_outlined),
-                  text: "Attendance and Leaves",
+                  text: "Work Stats",
                 ),
                 Tab(
                   icon: Icon(Icons.person),
@@ -79,7 +79,6 @@ class _PayslipState extends State<Payslip> {
                     style: TextStyle(fontSize: 50)),
                 subtitle: Text(
                   '\$4000.00',
-                  //TODO link this to database to show payslip of the user
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 50),
                 ),

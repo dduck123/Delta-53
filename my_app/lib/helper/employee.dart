@@ -215,7 +215,7 @@ class _EmployeeState extends State<Employee> {
                                                         MainAxisSize.min,
                                                     children: <Widget>[
                                                       new Text(
-                                                        "Full Name :" +
+                                                        "Full Name: " +
                                                             "${data['name']} ${data['surname']}",
                                                         style: TextStyle(
                                                           fontSize: 16.0,
@@ -242,7 +242,7 @@ class _EmployeeState extends State<Employee> {
                                                         MainAxisSize.min,
                                                     children: <Widget>[
                                                       new Text(
-                                                        "Date of birth :" +
+                                                        "Date of birth: " +
                                                             "${data['birthday']}",
                                                         style: TextStyle(
                                                           fontSize: 16.0,
@@ -271,7 +271,7 @@ class _EmployeeState extends State<Employee> {
                                                         MainAxisSize.min,
                                                     children: <Widget>[
                                                       new Text(
-                                                        "Address:" +
+                                                        "Address: " +
                                                             "${data['address']}",
                                                         style: TextStyle(
                                                           fontSize: 16.0,
@@ -300,7 +300,7 @@ class _EmployeeState extends State<Employee> {
                                                         MainAxisSize.min,
                                                     children: <Widget>[
                                                       new Text(
-                                                        "Phone No:" +
+                                                        "Phone No: " +
                                                             "${data['phone number']}",
                                                         style: TextStyle(
                                                           fontSize: 16.0,
