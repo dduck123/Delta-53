@@ -6,6 +6,7 @@ import 'package:my_app/pages/stats_page.dart';
 import "package:my_app/pages/faq_page.dart";
 import 'package:my_app/pages/leave_main_page.dart';
 import 'package:my_app/pages/requests_page.dart';
+import 'package:my_app/todo/todo_main.dart';
 //import 'package:my_app/pages/leaves_page.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -72,6 +73,19 @@ class MyDrawer extends StatelessWidget {
               Navigator.pop(context);
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => Stats()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.inventory_rounded,
+                color: Colors.indigo[300], size: 24.0),
+            title: const Text('To-Do List'),
+            onTap: () {
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.pop(context);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => TodoMainPage()));
             },
           ),
           ListTile(

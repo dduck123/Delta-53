@@ -84,15 +84,16 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
   //to give a function to both save and close buttons
   List<Widget> buildEditingActions() => [
-        ElevatedButton.icon(
-            icon: Icon(Icons.done),
-            label: Text('SAVE'),
-            onPressed: saveForm,
-            style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
-              shadowColor: Colors.transparent,
-            ))
-      ];
+    ElevatedButton.icon(
+        icon: Icon(Icons.done),
+        label: Text('SUBMIT'),
+        onPressed:saveForm,
+        style: ElevatedButton.styleFrom(
+          primary: Colors.transparent,
+          shadowColor: Colors.transparent,
+        ))
+  ];
+
 
   //build the title
   Widget buildTitle() => TextFormField(
