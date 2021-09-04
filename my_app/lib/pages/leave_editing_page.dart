@@ -3,7 +3,7 @@ import 'leave_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/leave_main_page.dart';
 import 'package:intl/intl.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LeaveEditingPage extends StatefulWidget {
   final Leave? leave;
@@ -14,12 +14,13 @@ class LeaveEditingPage extends StatefulWidget {
     Leave? event,
   }) : super(key: key);
 
-
   @override
   _LeaveEditingPageState createState() => _LeaveEditingPageState();
 }
 
 class _LeaveEditingPageState extends State<LeaveEditingPage> {
+  //will grab database info relating to the logged in user
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
   //validation purposes - a must to put in the title
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -36,7 +37,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
     if (widget.leave == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 3));
-    }else{
+    } else {
       final event = widget.leave!;
 
       titleController.text = event.title;
@@ -57,7 +58,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
         appBar: AppBar(
           leading: CloseButton(),
           actions: buildEditingActions(),
-
         ),
         body: SingleChildScrollView(
             padding: EdgeInsets.all(12),
@@ -75,35 +75,37 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
   //to give a function to both save and close buttons
   List<Widget> buildEditingActions() => [
-    ElevatedButton.icon(
-        icon: Icon(Icons.done),
-        label: Text('SUBMIT'),
-        onPressed:saveForm,
-        style: ElevatedButton.styleFrom(
-          primary: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ))
-  ];
+        ElevatedButton.icon(
+            icon: Icon(Icons.done),
+            label: Text('SUBMIT'),
+            onPressed: saveForm,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ))
+      ];
 
   //build the title
   Widget buildTitle() => TextFormField(
-    style: TextStyle(fontSize: 24),
-    decoration: InputDecoration(
-      border: UnderlineInputBorder(),
-      hintText: 'Type of Leave Request (Annual, Casual, Sick, Maternity/Paternity, Marriage, Compensatory Off, etc)',
-    ),
-    onFieldSubmitted: (_) => saveForm(),
-    validator: (title) =>
-    title != null && title.isEmpty ? 'Please fill in TYPE of LEAVE. Cannot be left blank.' : null,
-    controller: titleController,
-  );
+        style: TextStyle(fontSize: 24),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText:
+              'Type of Leave Request (Annual, Casual, Sick, Maternity/Paternity, Marriage, Compensatory Off, etc)',
+        ),
+        onFieldSubmitted: (_) => saveForm(),
+        validator: (title) => title != null && title.isEmpty
+            ? 'Please fill in TYPE of LEAVE. Cannot be left blank.'
+            : null,
+        controller: titleController,
+      );
 
   Widget buildDateTimePickers() => Column(
-    children: [
-      buildFrom(),
-      buildTo(),
-    ],
-  );
+        children: [
+          buildFrom(),
+          buildTo(),
+        ],
+      );
 
   Widget buildFrom() => buildHeader(
       header: 'FROM',
@@ -144,12 +146,11 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(
-        fromDate,
-        pickDate: pickDate);
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date == null) return;
     if (date.isAfter(toDate)) {
-      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate =
+          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() => fromDate = date);
   }
@@ -166,10 +167,10 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   }
 
   Future<DateTime?> pickDateTime(
-      DateTime initialDate, {
-        required bool pickDate,
-        DateTime? firstDate,
-      }) async {
+    DateTime initialDate, {
+    required bool pickDate,
+    DateTime? firstDate,
+  }) async {
     if (pickDate) {
       final date = await showDatePicker(
         context: context,
@@ -180,9 +181,8 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
       if (date == null) return null;
 
       final time =
-      Duration(hours: initialDate.hour, minutes: initialDate.minute);
+          Duration(hours: initialDate.hour, minutes: initialDate.minute);
       return date.add(time);
-
     } else {
       final timeOfDay = await showTimePicker(
         context: context,
@@ -191,7 +191,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
       if (timeOfDay == null) return null;
 
       final date =
-      DateTime(initialDate.year, initialDate.month, initialDate.day);
+          DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
       return date.add(time);
     }
@@ -246,14 +246,13 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
 //HELPER
 class Utils {
-
   static String toDateTime(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     final time = DateFormat.Hm().format(dateTime);
 
     return '$date $time';
-
   }
+
   static String toDate(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     return '$date';
