@@ -16,7 +16,7 @@ class CalendarWidget extends StatelessWidget{
     final events = Provider.of<EventProvider>(context).events;
 
     return SfCalendar(
-      view: CalendarView.month,
+      view: CalendarView.day,
       dataSource: EventDataSource(events),
       initialSelectedDate: DateTime.now(),
       cellBorderColor: Colors.transparent,

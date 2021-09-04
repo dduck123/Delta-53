@@ -34,8 +34,13 @@ class LeaveViewingPage extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               event.description,
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
+            const SizedBox(height: 24),
+            Text(
+              "Approval status: " + event.status,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            )
           ],
         ),
       );
@@ -43,7 +48,7 @@ class LeaveViewingPage extends StatelessWidget {
   Widget buildDateTime(Leave event) {
     return Column(
       children: [
-        buildDate(event.isAllDay ? 'All-day' : 'From: ', event.from),
+        buildDate(event.isAllDay ? 'All-day ' : 'From: ', event.from),
         if(!event.isAllDay) buildDate('To: ', event.to),
       ],
     );
@@ -55,8 +60,6 @@ class LeaveViewingPage extends StatelessWidget {
     ],
 
   );
-
-
 
 
   List<Widget> buildViewingActions(BuildContext context, Leave event) =>[

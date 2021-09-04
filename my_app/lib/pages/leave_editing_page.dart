@@ -3,7 +3,8 @@ import 'leave_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/leave_main_page.dart';
 import 'package:intl/intl.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LeaveEditingPage extends StatefulWidget {
   final Leave? leave;
@@ -14,7 +15,6 @@ class LeaveEditingPage extends StatefulWidget {
     Leave? event,
   }) : super(key: key);
 
-
   @override
   _LeaveEditingPageState createState() => _LeaveEditingPageState();
 }
@@ -23,10 +23,16 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   //validation purposes - a must to put in the title
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   //will display the date and time and can select the desired date/time
   late DateTime fromDate;
   late DateTime toDate;
+
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
+  CollectionReference leaves =
+      FirebaseFirestore.instance.collection('Employees');
 
   //to initiate the date with some values
   @override
@@ -36,9 +42,10 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
     if (widget.leave == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 3));
-    }else{
+    } else {
       final event = widget.leave!;
 
+      descriptionController.text = event.description;
       titleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
@@ -47,6 +54,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
   @override
   void dispose() {
+    descriptionController.dispose();
     titleController.dispose();
     super.dispose();
   }
@@ -57,7 +65,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
         appBar: AppBar(
           leading: CloseButton(),
           actions: buildEditingActions(),
-
         ),
         body: SingleChildScrollView(
             padding: EdgeInsets.all(12),
@@ -69,41 +76,58 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
                     buildTitle(),
                     SizedBox(height: 12),
                     buildDateTimePickers(),
+                    SizedBox(height: 12),
+                    buildDescription(),
                   ],
                 ))));
   }
 
   //to give a function to both save and close buttons
   List<Widget> buildEditingActions() => [
-    ElevatedButton.icon(
-        icon: Icon(Icons.done),
-        label: Text('SAVE'),
-        onPressed:saveForm,
-        style: ElevatedButton.styleFrom(
-          primary: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ))
-  ];
+        ElevatedButton.icon(
+            icon: Icon(Icons.done),
+            label: Text('SAVE'),
+            onPressed: saveForm,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ))
+      ];
 
   //build the title
   Widget buildTitle() => TextFormField(
-    style: TextStyle(fontSize: 24),
-    decoration: InputDecoration(
-      border: UnderlineInputBorder(),
-      hintText: 'Type of Leave Request (Annual, Casual, Sick, Maternity/Paternity, Marriage, Compensatory Off, etc)',
-    ),
-    onFieldSubmitted: (_) => saveForm(),
-    validator: (title) =>
-    title != null && title.isEmpty ? 'Please fill in TYPE of LEAVE. Cannot be left blank.' : null,
-    controller: titleController,
-  );
+        style: TextStyle(fontSize: 24),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText:
+              'Type of Leave Request (Annual, Casual, Sick, Maternity/Paternity, Marriage, Compensatory Off, etc)',
+        ),
+        onFieldSubmitted: (_) => saveForm(),
+        validator: (title) => title != null && title.isEmpty
+            ? 'Please fill in TYPE of LEAVE. Cannot be left blank.'
+            : null,
+        controller: titleController,
+      );
 
   Widget buildDateTimePickers() => Column(
-    children: [
-      buildFrom(),
-      buildTo(),
-    ],
-  );
+        children: [
+          buildFrom(),
+          buildTo(),
+        ],
+      );
+
+  Widget buildDescription() => TextFormField(
+        style: TextStyle(fontSize: 24),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText: 'Description of Leave',
+        ),
+        onFieldSubmitted: (_) => saveForm(),
+        validator: (description) => description != null && description.isEmpty
+            ? 'Please fill in description of Leave. Cannot be left blank.'
+            : null,
+        controller: descriptionController,
+      );
 
   Widget buildFrom() => buildHeader(
       header: 'FROM',
@@ -115,13 +139,13 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             onClicked: () => pickFromDateTime(pickDate: true),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: buildDropDownField(
-            text: Utils.toTime(fromDate),
-            onClicked: () => pickFromDateTime(pickDate: false),
-          ),
-        ),
+        // Expanded(
+        //   flex: 1,
+        //   child: buildDropDownField(
+        //     text: Utils.toTime(fromDate),
+        //     onClicked: () => pickFromDateTime(pickDate: false),
+        //   ),
+        // ),
       ]));
 
   Widget buildTo() => buildHeader(
@@ -134,22 +158,21 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             onClicked: () => pickToDateTime(pickDate: true),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: buildDropDownField(
-            text: Utils.toTime(toDate),
-            onClicked: () => pickToDateTime(pickDate: false),
-          ),
-        ),
+        // Expanded(
+        //   flex: 1,
+        //   child: buildDropDownField(
+        //     text: Utils.toTime(toDate),
+        //     onClicked: () => pickToDateTime(pickDate: false),
+        //   ),
+        // ),
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(
-        fromDate,
-        pickDate: pickDate);
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date == null) return;
     if (date.isAfter(toDate)) {
-      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate =
+          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() => fromDate = date);
   }
@@ -166,10 +189,10 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   }
 
   Future<DateTime?> pickDateTime(
-      DateTime initialDate, {
-        required bool pickDate,
-        DateTime? firstDate,
-      }) async {
+    DateTime initialDate, {
+    required bool pickDate,
+    DateTime? firstDate,
+  }) async {
     if (pickDate) {
       final date = await showDatePicker(
         context: context,
@@ -180,9 +203,8 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
       if (date == null) return null;
 
       final time =
-      Duration(hours: initialDate.hour, minutes: initialDate.minute);
+          Duration(hours: initialDate.hour, minutes: initialDate.minute);
       return date.add(time);
-
     } else {
       final timeOfDay = await showTimePicker(
         context: context,
@@ -191,7 +213,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
       if (timeOfDay == null) return null;
 
       final date =
-      DateTime(initialDate.year, initialDate.month, initialDate.day);
+          DateTime(initialDate.year, initialDate.month, initialDate.day);
       final time = Duration(hours: timeOfDay.hour, minutes: timeOfDay.minute);
       return date.add(time);
     }
@@ -219,25 +241,81 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
         ],
       );
 
+  // Future<void> addLeaves() async {
+  //   // Call the leaves's CollectionReference to add leaves to current user
+  //   final isValid = _formKey.currentState!.validate();
+  //   if (isValid) {
+  //     final event = Leave(
+  //       status: "Pending",
+  //       title: titleController.text,
+  //       description: descriptionController.text,
+  //       from: fromDate,
+  //       to: toDate,
+  //       isAllDay: true,
+  //     );
+  //     leaves.add({
+  //       'status': event.status, // John Doe
+  //       'title': titleController.text, // Stokes and Sons
+  //       'description': descriptionController.text,
+  //       'from': fromDate,
+  //       'to': toDate // 42
+  //     }).then((value) => print("Leaves Added")).catchError((error) =>
+  //         print("Failed to add leave: $error"));
+  //   }
+  // }
+
   //for the save button
   Future saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       final event = Leave(
+        status: "Pending",
         title: titleController.text,
-        description: 'Description',
+        description: descriptionController.text,
         from: fromDate,
         to: toDate,
-        isAllDay: false,
+        isAllDay: true,
       );
       final isEditing = widget.leave != null;
       final provider = Provider.of<LeaveProvider>(context, listen: false);
 
       if (isEditing) {
+        int index = provider.getIndexLeaveOld(event, widget.leave!);
         provider.editLeave(event, widget.leave!);
+        leaves
+            .doc(currentUserID)
+            .collection("Leaves")
+            .doc(index.toString())
+            .update({
+              'status': event.status, // John Doe
+              'title': titleController.text, // Stokes and Sons
+              'description': descriptionController.text,
+              'from': fromDate,
+              'to': toDate // 42
+            })
+            .then((value) => print("Leaves Updated"))
+            .catchError((error) => print("Failed to update leave: $error"));
         Navigator.of(context).pop();
       } else {
         provider.addLeave(event);
+        int index = provider.getIndexLeave(event);
+        leaves
+            .doc(currentUserID)
+            .collection("Leaves")
+            .doc(index.toString())
+            .set(
+              {
+                'status': event.status, // John Doe
+                'title': titleController.text, // Stokes and Sons
+                'description': descriptionController.text,
+                'from': fromDate,
+                'to': toDate // 42
+              },
+              SetOptions(merge: true),
+            )
+            .then((value) => print("Leaves Added"))
+            .catchError((error) => print("Failed to add leave: $error"));
+
         Navigator.of(context).pop();
       }
     }
@@ -246,14 +324,13 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
 //HELPER
 class Utils {
-
   static String toDateTime(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     final time = DateFormat.Hm().format(dateTime);
 
     return '$date $time';
-
   }
+
   static String toDate(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     return '$date';

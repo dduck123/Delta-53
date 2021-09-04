@@ -5,14 +5,39 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:my_app/pages/leave_provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:my_app/pages/leave_viewing_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 class LeaveWidget extends StatelessWidget{
   @override
 
   Widget build(BuildContext context){
+    final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
+    CollectionReference leaves =
+    FirebaseFirestore.instance.collection('Employees');
 
     final events = Provider.of<LeaveProvider>(context).leaves;
+
+    leaves.doc(currentUserID).collection("Leaves")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        DateTime myDateTimeTo = doc["to"].toDate();
+        DateTime myDateTimeFrom =doc["from"].toDate();
+        final event = Leave(
+          status: doc["status"],
+          title: doc["title"],
+          description: doc["description"],
+          from: myDateTimeFrom,
+          to: myDateTimeTo,
+          isAllDay: true,
+        );
+        events.add(event);
+      });
+    });
 
     return SfCalendar(
         view: CalendarView.month,
