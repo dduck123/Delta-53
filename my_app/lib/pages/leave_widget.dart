@@ -8,36 +8,68 @@ import 'package:my_app/pages/leave_viewing_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-
-class LeaveWidget extends StatelessWidget{
+class LeaveWidget extends StatelessWidget {
   @override
-
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     final currentUserID = FirebaseAuth.instance.currentUser!.uid;
 
     CollectionReference leaves =
-    FirebaseFirestore.instance.collection('Employees');
+        FirebaseFirestore.instance.collection('Employees');
 
     final events = Provider.of<LeaveProvider>(context).leaves;
+    if (events.isEmpty) {
+      leaves
+          .doc(currentUserID)
+          .collection("Leaves")
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        int counter = 0;
+        querySnapshot.docs.forEach((doc) {
+          DateTime myDateTimeTo = doc["to"].toDate();
+          DateTime myDateTimeFrom = doc["from"].toDate();
+          final event = Leave(
+            status: doc["status"],
+            title: doc["title"],
+            description: doc["description"],
+            from: myDateTimeFrom,
+            to: myDateTimeTo,
+            isAllDay: true,
+          );
+          if (counter ==int.parse(doc.id)){
+            leaves
+                .doc(currentUserID)
+                .collection("Leaves")
+                .doc(counter.toString())
+                .set({
+              "status": doc["status"],
+              "title": doc["title"],
+              "description": doc["description"],
+              "from": myDateTimeFrom,
+              "to": myDateTimeTo,
+            });
 
-    leaves.doc(currentUserID).collection("Leaves")
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        DateTime myDateTimeTo = doc["to"].toDate();
-        DateTime myDateTimeFrom =doc["from"].toDate();
-        final event = Leave(
-          status: doc["status"],
-          title: doc["title"],
-          description: doc["description"],
-          from: myDateTimeFrom,
-          to: myDateTimeTo,
-          isAllDay: true,
-        );
-        events.add(event);
+          }
+          else{
+            leaves
+                .doc(currentUserID)
+                .collection("Leaves")
+                .doc(counter.toString())
+                .set({
+              "status": doc["status"],
+              "title": doc["title"],
+              "description": doc["description"],
+              "from": myDateTimeFrom,
+              "to": myDateTimeTo,
+            });
+            doc.reference.delete();
+          }
+
+          events.add(event);
+          counter += 1;
+
+        });
       });
-    });
+    }
 
     return SfCalendar(
         view: CalendarView.month,
@@ -52,15 +84,15 @@ class LeaveWidget extends StatelessWidget{
             context: context,
             builder: (context) => TasksWidget(),
           );
-        }
-    );
+        });
   }
 }
 
-class EventDataSource extends CalendarDataSource{
+class EventDataSource extends CalendarDataSource {
   EventDataSource(List<Leave> appointments) {
     this.appointments = appointments;
   }
+
   Leave getEvent(int index) => appointments![index] as Leave;
 
   @override
@@ -81,13 +113,12 @@ class EventDataSource extends CalendarDataSource{
 
 //Task Widget
 
-class TasksWidget extends StatefulWidget{
+class TasksWidget extends StatefulWidget {
   @override
   _TasksWidgetState createState() => _TasksWidgetState();
-
 }
 
-class _TasksWidgetState extends State<TasksWidget>{
+class _TasksWidgetState extends State<TasksWidget> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<LeaveProvider>(context);
@@ -128,10 +159,7 @@ class _TasksWidgetState extends State<TasksWidget>{
   }
 
   Widget appointmentBuilder(
-      BuildContext context,
-      CalendarAppointmentDetails details
-      )
-  {
+      BuildContext context, CalendarAppointmentDetails details) {
     final event = details.appointments.first;
 
     return Container(
@@ -149,11 +177,9 @@ class _TasksWidgetState extends State<TasksWidget>{
             style: TextStyle(
               color: Colors.black,
               fontSize: 17,
-              fontWeight:  FontWeight.bold,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ));
   }
-
-
 }

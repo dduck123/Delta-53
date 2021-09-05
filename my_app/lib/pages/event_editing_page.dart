@@ -3,6 +3,8 @@ import 'package:my_app/pages/main_page.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'event_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EventEditingPage extends StatefulWidget {
   final Meeting? meeting;
@@ -22,10 +24,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
 //to validate the form - need to at least put smth in text field
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   //to select date for calender
   late DateTime fromDate;
   late DateTime toDate;
+  late Color eventType;
+
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
+  CollectionReference employees =
+  FirebaseFirestore.instance.collection('Employees');
 
   //set some default values to chose
   @override
@@ -38,14 +47,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
     }else{
       final event = widget.meeting!;
 
+      descriptionController.text = event.description;
       titleController.text = event.title;
       fromDate = event.from;
       toDate = event.to;
+      eventType = event.backgroundColor;
     }
   }
 
   @override
   void dispose() {
+    descriptionController.dispose();
     titleController.dispose();
     super.dispose();
   }
@@ -68,6 +80,8 @@ class _EventEditingPageState extends State<EventEditingPage> {
                     buildTitle(),
                     SizedBox(height: 12),
                     buildDateTimePickers(),
+                    SizedBox(height: 12),
+                    buildDescription(),
                   ],
                 ))));
   }
@@ -97,6 +111,19 @@ class _EventEditingPageState extends State<EventEditingPage> {
         controller: titleController,
       );
 
+  Widget buildDescription() => TextFormField(
+    style: TextStyle(fontSize: 24),
+    decoration: InputDecoration(
+      border: UnderlineInputBorder(),
+      hintText: 'Description of Meeting',
+    ),
+    onFieldSubmitted: (_) => saveForm(),
+    validator: (description) => description != null && description.isEmpty
+        ? 'Please fill in description of Meeting. Cannot be left blank.'
+        : null,
+    controller: descriptionController,
+  );
+
   Widget buildDateTimePickers() => Column(
         children: [
           buildFrom(),
@@ -104,8 +131,10 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ],
       );
 
+  
+  
   Widget buildFrom() => buildHeader(
-      header: 'FROM',
+      header: 'Select day ',
       child: Row(children: [
         Expanded(
           flex: 2,
@@ -114,23 +143,16 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onClicked: () => pickFromDateTime(pickDate: true),
           ),
         ),
+      ]));
+
+  Widget buildTo() => buildHeader(
+      header: 'Select duration',
+      child: Row(children: [
         Expanded(
           flex: 2,
           child: buildDropDownField(
             text: Utils.toTime(fromDate),
             onClicked: () => pickFromDateTime(pickDate: false),
-          ),
-        ),
-      ]));
-
-  Widget buildTo() => buildHeader(
-      header: 'TO',
-      child: Row(children: [
-        Expanded(
-          flex: 2,
-          child: buildDropDownField(
-            text: Utils.toDate(toDate),
-            onClicked: () => pickToDateTime(pickDate: true),
           ),
         ),
         Expanded(
@@ -140,6 +162,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onClicked: () => pickToDateTime(pickDate: false),
           ),
         ),
+
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
@@ -195,6 +218,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     }
   }
 
+
   Widget buildDropDownField({
     required String text,
     required VoidCallback onClicked,
@@ -223,7 +247,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (isValid) {
       final event = Meeting(
         title: titleController.text,
-        description: 'Description',
+        description: descriptionController.text,
         from: fromDate,
         to: toDate,
         isAllDay: false,
@@ -232,10 +256,41 @@ class _EventEditingPageState extends State<EventEditingPage> {
       final provider = Provider.of<EventProvider>(context, listen: false);
 
       if (isEditing) {
+        int index = provider.getIndexEventOld(event, widget.meeting!);
         provider.editEvent(event, widget.meeting!);
+        employees
+            .doc(currentUserID)
+            .collection("DayEvents")
+            .doc(index.toString())
+            .update({
+          'title': titleController.text,
+          'description': descriptionController.text,
+          'from': fromDate,
+          'to': toDate
+        })
+            .then((value) => print("Day event Updated"))
+            .catchError((error) => print("Failed to update day event: $error"));
+
         Navigator.of(context).pop();
       } else {
         provider.addEvent(event);
+        int index = provider.getIndexEvent(event);
+        employees
+            .doc(currentUserID)
+            .collection("DayEvents")
+            .doc(index.toString())
+            .set(
+          {
+            'title': titleController.text,
+            'description': descriptionController.text,
+            'from': fromDate,
+            'to': toDate
+          },
+          SetOptions(merge: true),
+        )
+            .then((value) => print("Day event Added"))
+            .catchError((error) => print("Failed to add day event: $error"));
+
         Navigator.of(context).pop();
       }
     }

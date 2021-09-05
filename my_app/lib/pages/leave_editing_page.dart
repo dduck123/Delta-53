@@ -140,13 +140,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             onClicked: () => pickFromDateTime(pickDate: true),
           ),
         ),
-        // Expanded(
-        //   flex: 1,
-        //   child: buildDropDownField(
-        //     text: Utils.toTime(fromDate),
-        //     onClicked: () => pickFromDateTime(pickDate: false),
-        //   ),
-        // ),
       ]));
 
   Widget buildTo() => buildHeader(
@@ -159,13 +152,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             onClicked: () => pickToDateTime(pickDate: true),
           ),
         ),
-        // Expanded(
-        //   flex: 1,
-        //   child: buildDropDownField(
-        //     text: Utils.toTime(toDate),
-        //     onClicked: () => pickToDateTime(pickDate: false),
-        //   ),
-        // ),
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
@@ -242,29 +228,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
         ],
       );
 
-  // Future<void> addLeaves() async {
-  //   // Call the leaves's CollectionReference to add leaves to current user
-  //   final isValid = _formKey.currentState!.validate();
-  //   if (isValid) {
-  //     final event = Leave(
-  //       status: "Pending",
-  //       title: titleController.text,
-  //       description: descriptionController.text,
-  //       from: fromDate,
-  //       to: toDate,
-  //       isAllDay: true,
-  //     );
-  //     leaves.add({
-  //       'status': event.status, // John Doe
-  //       'title': titleController.text, // Stokes and Sons
-  //       'description': descriptionController.text,
-  //       'from': fromDate,
-  //       'to': toDate // 42
-  //     }).then((value) => print("Leaves Added")).catchError((error) =>
-  //         print("Failed to add leave: $error"));
-  //   }
-  // }
-
   //for the save button
   Future saveForm() async {
     final isValid = _formKey.currentState!.validate();
@@ -288,11 +251,11 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             .collection("Leaves")
             .doc(index.toString())
             .update({
-              'status': event.status, // John Doe
-              'title': titleController.text, // Stokes and Sons
+              'status': event.status,
+              'title': titleController.text,
               'description': descriptionController.text,
               'from': fromDate,
-              'to': toDate // 42
+              'to': toDate
             })
             .then((value) => print("Leaves Updated"))
             .catchError((error) => print("Failed to update leave: $error"));
@@ -306,11 +269,11 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             .doc(index.toString())
             .set(
               {
-                'status': event.status, // John Doe
-                'title': titleController.text, // Stokes and Sons
+
+                'title': titleController.text,
                 'description': descriptionController.text,
                 'from': fromDate,
-                'to': toDate // 42
+                'to': toDate
               },
               SetOptions(merge: true),
             )

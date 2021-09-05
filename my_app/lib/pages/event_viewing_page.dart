@@ -5,8 +5,10 @@ import 'package:my_app/pages/event_editing_page.dart';
 import 'package:my_app/pages/event_provider.dart';
 import 'package:my_app/pages/main_page.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class EventViewingPage extends StatelessWidget {
+class EventViewingPage extends StatefulWidget {
   final Meeting event;
 
   const EventViewingPage({
@@ -15,25 +17,36 @@ class EventViewingPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _EventViewingPageState createState() => _EventViewingPageState();
+}
+
+class _EventViewingPageState extends State<EventViewingPage> {
+
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
+  CollectionReference employees =
+  FirebaseFirestore.instance.collection('Employees');
+
+  @override
   Widget build(BuildContext context) =>
       Scaffold(
         appBar: AppBar(
           leading: CloseButton(),
-          actions: buildViewingActions(context, event),
+          actions: buildViewingActions(context, widget.event),
         ),
         body: ListView(
           padding: EdgeInsets.all(32),
           children: <Widget>[
-            buildDateTime(event),
+            buildDateTime(widget.event),
             SizedBox(height: 32),
             Text(
-              event.title,
+              widget.event.title,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
             Text(
-              event.description,
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              widget.event.description,
+              style: TextStyle(color: Colors.black, fontSize: 18),
             ),
           ],
         ),
@@ -75,6 +88,15 @@ class EventViewingPage extends StatelessWidget {
         onPressed: () {
           final provider = Provider.of<EventProvider>(context, listen: false);
           provider.deleteEvent(event);
+          int index = provider.getIndexEvent(event);
+          provider.deleteEvent(event);
+          employees
+              .doc(currentUserID)
+              .collection("DayEvents")
+              .doc(index.toString())
+              .delete()
+              .then((value) => print("Event Deleted"))
+              .catchError((error) => print("Failed to delete event: $error"));
           Navigator.of(context).pop();
         }
     ),

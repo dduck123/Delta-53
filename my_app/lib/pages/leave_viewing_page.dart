@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class LeaveViewingPage extends StatelessWidget {
+class LeaveViewingPage extends StatefulWidget {
   final Leave event;
 
   const LeaveViewingPage({
@@ -16,29 +18,40 @@ class LeaveViewingPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _LeaveViewingPageState createState() => _LeaveViewingPageState();
+}
+
+class _LeaveViewingPageState extends State<LeaveViewingPage> {
+
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
+  CollectionReference leaves =
+  FirebaseFirestore.instance.collection('Employees');
+
+  @override
   Widget build(BuildContext context) =>
       Scaffold(
         appBar: AppBar(
           leading: CloseButton(),
-          actions: buildViewingActions(context, event),
+          actions: buildViewingActions(context, widget.event),
         ),
         body: ListView(
           padding: EdgeInsets.all(32),
           children: <Widget>[
-            buildDateTime(event),
+            buildDateTime(widget.event),
             SizedBox(height: 32),
             Text(
-              event.title,
+              widget.event.title,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.normal),
             ),
             const SizedBox(height: 24),
             Text(
-              event.description,
+              widget.event.description,
               style: TextStyle(color: Colors.black, fontSize: 18),
             ),
             const SizedBox(height: 24),
             Text(
-              "Approval status: " + event.status,
+              "Approval status: " + widget.event.status,
               style: TextStyle(color: Colors.black, fontSize: 18),
             )
           ],
@@ -77,7 +90,15 @@ class LeaveViewingPage extends StatelessWidget {
         icon: Icon(Icons.delete),
         onPressed: () {
           final provider = Provider.of<LeaveProvider>(context, listen: false);
+          int index = provider.getIndexLeave(event);
           provider.deleteLeave(event);
+          leaves
+              .doc(currentUserID)
+              .collection("Leaves")
+              .doc(index.toString())
+              .delete()
+              .then((value) => print("Leaves Deleted"))
+              .catchError((error) => print("Failed to delete leave: $error"));
           Navigator.of(context).pop();
         }
     ),

@@ -59,21 +59,21 @@ class _AnnounceState extends State<Announce> {
                       //      horizontal: 20.0, vertical: 30.0),
 
                       title: Transform.translate(
-                        offset: Offset(4, 2),
+                        offset: Offset(20, 12),
                         child: Text(
                           announce['title'],
                           style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 25.0,
                             color: Colors.black87,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
                       subtitle: Transform.translate(
-                        offset: Offset(0, 22),
+                        offset: Offset(20, 25),
                         child: Text(
                           announce['message'],
-                          maxLines: 5,
+                          maxLines: 20,
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
                           style: TextStyle(
@@ -170,6 +170,7 @@ class _AnnounceState extends State<Announce> {
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
+          backgroundColor: Colors.indigo,
           onPressed: () {
             showDialog(
               context: context,

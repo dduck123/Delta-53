@@ -31,5 +31,17 @@ class EventProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  int getIndexEventOld(Meeting newEvent, Meeting oldEvent){
+    final index = _events.indexOf(oldEvent);
+    print(index);
+    return index;
+  }
+
+
+  int getIndexEvent(Meeting newEvent){
+    final index = _events.indexOf(newEvent);
+    return index;
+  }
+
 
 }

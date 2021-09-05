@@ -56,7 +56,7 @@ class Meeting {
     required this.description,
     required this.from,
     required this.to,
-    this.backgroundColor = Colors.lightGreen,
+    this.backgroundColor = Colors.indigo,
     this.isAllDay = false,
   });
 }

@@ -47,7 +47,6 @@ class FirebaseAuthHelper {
     try {
       final authResult = await _auth.signInWithEmailAndPassword(email: email, password: pass);
       if (authResult.user != null) {
-        print("user id: " + authResult.user!.uid);
           _status = AuthResultStatus.successful;
         } else {
           _status = AuthResultStatus.undefined;

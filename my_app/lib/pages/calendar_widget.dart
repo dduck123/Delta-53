@@ -5,38 +5,127 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:my_app/pages/event_provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:my_app/pages/event_viewing_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-
-
-class CalendarWidget extends StatelessWidget{
+class CalendarWidget extends StatelessWidget {
   @override
+  Widget build(BuildContext context) {
+    final currentUserID = FirebaseAuth.instance.currentUser!.uid;
 
-  Widget build(BuildContext context){
+    CollectionReference employees =
+        FirebaseFirestore.instance.collection('Employees');
 
-    final events = Provider.of<EventProvider>(context).events;
+    final provider = Provider.of<EventProvider>(context);
 
-    return SfCalendar(
-      view: CalendarView.day,
-      dataSource: EventDataSource(events),
-      initialSelectedDate: DateTime.now(),
-      cellBorderColor: Colors.transparent,
-      onLongPress: (details) {
-        final provider = Provider.of<EventProvider>(context, listen: false);
-        provider.setDate(details.date!);
+    if (provider.events.isEmpty) {
+      print("Connected to database for main page event calendar");
+      employees
+          .doc(currentUserID)
+          .collection("DayEvents")
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        int counter = 0;
+        querySnapshot.docs.forEach((doc) {
+          DateTime myDateTimeTo = doc["to"].toDate();
+          DateTime myDateTimeFrom = doc["from"].toDate();
+          final event = Meeting(
+            title: doc["title"],
+            description: doc["description"],
+            from: myDateTimeFrom,
+            to: myDateTimeTo,
+            isAllDay: false,
+          );
+          if (counter == int.parse(doc.id)) {
+            employees
+                .doc(currentUserID)
+                .collection("DayEvents")
+                .doc(counter.toString())
+                .set({
+              "title": doc["title"],
+              "description": doc["description"],
+              "from": myDateTimeFrom,
+              "to": myDateTimeTo,
+            });
+          } else {
+            employees
+                .doc(currentUserID)
+                .collection("DayEvents")
+                .doc(counter.toString())
+                .set({
+              "title": doc["title"],
+              "description": doc["description"],
+              "from": myDateTimeFrom,
+              "to": myDateTimeTo,
+            });
+            doc.reference.delete();
+          }
 
-        showModalBottomSheet(
-            context: context,
-            builder: (context) => TasksWidget(),
-        );
-      }
-    );
+          provider.events.add(event);
+          counter += 1;
+        });
+      });
+    }
+
+    return SfCalendarTheme(
+        data: SfCalendarThemeData(
+        timeTextStyle: TextStyle(fontSize: 12, color: Colors.indigo),
+    ),
+    child: SfCalendar(
+      todayHighlightColor: Colors.indigo,
+        view: CalendarView.week,
+        appointmentBuilder: appointmentBuilder,
+        timeSlotViewSettings: TimeSlotViewSettings(
+            timeInterval: Duration(hours: 1),
+            timeIntervalHeight: 100,
+            startHour: 7,
+            endHour: 20),
+        dataSource: EventDataSource(provider.events),
+        initialSelectedDate: DateTime.now(),
+        cellBorderColor: Colors.transparent,
+        onTap: (details) {
+          provider.setDate(details.date!);
+
+          if (details.appointments == null) return;
+          final event = details.appointments!.first;
+
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => EventViewingPage(event: event),
+          ));
+        }));
+  }
+
+  Widget appointmentBuilder(
+      BuildContext context, CalendarAppointmentDetails details) {
+    final event = details.appointments.first;
+    print("Appointments retrieved.");
+    return Container(
+        width: details.bounds.width,
+        height: details.bounds.height,
+        decoration: BoxDecoration(
+          color: event.backgroundColor.withOpacity(0.5),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Text(
+            event.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ));
   }
 }
 
-class EventDataSource extends CalendarDataSource{
+class EventDataSource extends CalendarDataSource {
   EventDataSource(List<Meeting> appointments) {
     this.appointments = appointments;
   }
+
   Meeting getEvent(int index) => appointments![index] as Meeting;
 
   @override
@@ -55,81 +144,3 @@ class EventDataSource extends CalendarDataSource{
   bool isAllDay(int index) => getEvent(index).isAllDay;
 }
 
-//Task Widget
-
-class TasksWidget extends StatefulWidget{
-  @override
-  _TasksWidgetState createState() => _TasksWidgetState();
-
-}
-
-class _TasksWidgetState extends State<TasksWidget>{
-  @override
-  Widget build(BuildContext context) {
-    final provider = Provider.of<EventProvider>(context);
-    final selectedEvents = provider.eventsOfSelectedDate;
-
-    if (selectedEvents.isEmpty) {
-      return Center(
-        child: Text(
-          'No events found',
-          style: TextStyle(color: Colors.black, fontSize: 24),
-        ),
-      );
-    }
-    return SfCalendarTheme(
-      data: SfCalendarThemeData(
-        timeTextStyle: TextStyle(fontSize: 16, color: Colors.blue),
-      ),
-      child: SfCalendar(
-        view: CalendarView.timelineDay,
-        dataSource: EventDataSource(provider.events),
-        initialDisplayDate: provider.selectedDate,
-        appointmentBuilder: appointmentBuilder,
-        headerHeight: 0,
-        onTap: (details) {
-          if (details.appointments == null) return;
-          final event = details.appointments!.first;
-
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => EventViewingPage(event: event),
-          ));
-        },
-        todayHighlightColor: Colors.black,
-        selectionDecoration: BoxDecoration(
-          color: Colors.red.withOpacity(0.3),
-        ),
-      ),
-    );
-  }
-
-  Widget appointmentBuilder(
-      BuildContext context,
-      CalendarAppointmentDetails details
-      )
-  {
-    final event = details.appointments.first;
-
-    return Container(
-      width: details.bounds.width,
-      height: details.bounds.height,
-      decoration: BoxDecoration(
-        color: event.backgroundColor.withOpacity(0.5),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Center(
-      child: Text(
-        event.title,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-          fontWeight:  FontWeight.bold,
-        ),
-      ),
-    ));
-  }
-
-
-}

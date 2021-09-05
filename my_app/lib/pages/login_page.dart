@@ -131,22 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  validate(BuildContext ctx) {
-    if (myControllerEmail.text != "" && myControllerPass.text != "") {
-      if (myControllerEmail.text == "delta-53@gmail.com" &&
-          myControllerPass.text == "delta53") {
-        return true;
-      }
-      message = "Wrong email or password.";
-      return false;
-    } else if (myControllerEmail.text != "") {
-      message = "Please enter your password.";
-    } else if (myControllerPass.text != "") {
-      message = "Please enter your email.";
-    } else
-      message = "Please enter your email and password.";
-    return false;
-  }
 
   //v2
   _login() async {
