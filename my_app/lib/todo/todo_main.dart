@@ -16,7 +16,7 @@ class TodoMainPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: title,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
+        primarySwatch: Colors.indigo,
         scaffoldBackgroundColor: Color(0xFFf6f5ee),
       ),
       home: TodoHomePage(),
