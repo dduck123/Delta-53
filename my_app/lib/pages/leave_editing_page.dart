@@ -20,6 +20,9 @@ class LeaveEditingPage extends StatefulWidget {
 }
 
 class _LeaveEditingPageState extends State<LeaveEditingPage> {
+  //will grab database info relating to the logged in user
+  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
+
   //validation purposes - a must to put in the title
   final _formKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
@@ -28,8 +31,6 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   //will display the date and time and can select the desired date/time
   late DateTime fromDate;
   late DateTime toDate;
-
-  final currentUserID = FirebaseAuth.instance.currentUser!.uid;
 
   CollectionReference leaves =
       FirebaseFirestore.instance.collection('Employees');
@@ -84,16 +85,15 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
 
   //to give a function to both save and close buttons
   List<Widget> buildEditingActions() => [
-    ElevatedButton.icon(
-        icon: Icon(Icons.done),
-        label: Text('SUBMIT'),
-        onPressed:saveForm,
-        style: ElevatedButton.styleFrom(
-          primary: Colors.transparent,
-          shadowColor: Colors.transparent,
-        ))
-  ];
-
+        ElevatedButton.icon(
+            icon: Icon(Icons.done),
+            label: Text('SUBMIT'),
+            onPressed: saveForm,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent,
+              shadowColor: Colors.transparent,
+            ))
+      ];
 
   //build the title
   Widget buildTitle() => TextFormField(
@@ -269,7 +269,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
             .doc(index.toString())
             .set(
               {
-
+                "status": "Pending",
                 'title': titleController.text,
                 'description': descriptionController.text,
                 'from': fromDate,
