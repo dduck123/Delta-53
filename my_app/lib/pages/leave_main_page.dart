@@ -1,3 +1,5 @@
+import 'package:my_app/helper/constants.dart';
+
 import 'leave_provider.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class LeaveMainPage extends StatelessWidget {
 class MainPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text(LeaveMainPage.title),
           centerTitle: true,
         ),

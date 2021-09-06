@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/pages/calendar_widget.dart';
 import 'package:my_app/pages/event_editing_page.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class CalendarMainPage extends StatelessWidget {
           title: title,
           theme: ThemeData(
             brightness: Brightness.light,
-            primaryColor: Colors.indigo[300],
+            primaryColor: primaryColor,
           ),
           home: MainPage(),
         ),
@@ -26,6 +27,7 @@ class CalendarMainPage extends StatelessWidget {
 class MainPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text(CalendarMainPage.title),
           centerTitle: true,
         ),

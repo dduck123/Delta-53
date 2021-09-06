@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,6 +27,7 @@ class _RequestsState extends State<Requests> {
       home: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text("Requests"),
         ),
         body: StreamBuilder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+const primaryColor = const Color(0xFF5C6BC0);
 final kHintTextStyle = TextStyle(
   color: Colors.black38,
   fontFamily: 'OpenSans',
