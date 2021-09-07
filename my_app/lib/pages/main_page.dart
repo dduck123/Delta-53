@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
               Icons.add,
               color: Colors.white,
             ),
-            backgroundColor: Colors.indigo,
+            backgroundColor: accentColor,
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => EventEditingPage()))),
         drawer: MyDrawer(),

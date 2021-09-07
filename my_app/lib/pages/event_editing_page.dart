@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/pages/main_page.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ class EventEditingPage extends StatefulWidget {
     this.meeting,
     Meeting? event,
   }) : super(key: key);
-
 
   @override
   _EventEditingPageState createState() => _EventEditingPageState();
@@ -34,7 +34,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
   final currentUserID = FirebaseAuth.instance.currentUser!.uid;
 
   CollectionReference employees =
-  FirebaseFirestore.instance.collection('Employees');
+      FirebaseFirestore.instance.collection('Employees');
 
   //set some default values to chose
   @override
@@ -44,7 +44,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
     if (widget.meeting == null) {
       fromDate = DateTime.now();
       toDate = DateTime.now().add(Duration(hours: 2));
-    }else{
+    } else {
       final event = widget.meeting!;
 
       descriptionController.text = event.description;
@@ -66,9 +66,9 @@ class _EventEditingPageState extends State<EventEditingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           leading: CloseButton(),
           actions: buildEditingActions(),
-
         ),
         body: SingleChildScrollView(
             padding: EdgeInsets.all(12),
@@ -91,7 +91,7 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ElevatedButton.icon(
             icon: Icon(Icons.done),
             label: Text('SAVE'),
-            onPressed:saveForm,
+            onPressed: saveForm,
             style: ElevatedButton.styleFrom(
               primary: Colors.transparent,
               shadowColor: Colors.transparent,
@@ -112,17 +112,17 @@ class _EventEditingPageState extends State<EventEditingPage> {
       );
 
   Widget buildDescription() => TextFormField(
-    style: TextStyle(fontSize: 24),
-    decoration: InputDecoration(
-      border: UnderlineInputBorder(),
-      hintText: 'Description of Meeting',
-    ),
-    onFieldSubmitted: (_) => saveForm(),
-    validator: (description) => description != null && description.isEmpty
-        ? 'Please fill in description of Meeting. Cannot be left blank.'
-        : null,
-    controller: descriptionController,
-  );
+        style: TextStyle(fontSize: 24),
+        decoration: InputDecoration(
+          border: UnderlineInputBorder(),
+          hintText: 'Description of Meeting',
+        ),
+        onFieldSubmitted: (_) => saveForm(),
+        validator: (description) => description != null && description.isEmpty
+            ? 'Please fill in description of Meeting. Cannot be left blank.'
+            : null,
+        controller: descriptionController,
+      );
 
   Widget buildDateTimePickers() => Column(
         children: [
@@ -131,8 +131,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
         ],
       );
 
-  
-  
   Widget buildFrom() => buildHeader(
       header: 'Select day ',
       child: Row(children: [
@@ -162,16 +160,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
             onClicked: () => pickToDateTime(pickDate: false),
           ),
         ),
-
       ]));
 
   Future pickFromDateTime({required bool pickDate}) async {
-    final date = await pickDateTime(
-        fromDate,
-        pickDate: pickDate);
+    final date = await pickDateTime(fromDate, pickDate: pickDate);
     if (date == null) return;
     if (date.isAfter(toDate)) {
-      toDate = DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
+      toDate =
+          DateTime(date.year, date.month, date.day, toDate.hour, toDate.minute);
     }
     setState(() => fromDate = date);
   }
@@ -218,7 +214,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
     }
   }
 
-
   Widget buildDropDownField({
     required String text,
     required VoidCallback onClicked,
@@ -263,11 +258,11 @@ class _EventEditingPageState extends State<EventEditingPage> {
             .collection("DayEvents")
             .doc(index.toString())
             .update({
-          'title': titleController.text,
-          'description': descriptionController.text,
-          'from': fromDate,
-          'to': toDate
-        })
+              'title': titleController.text,
+              'description': descriptionController.text,
+              'from': fromDate,
+              'to': toDate
+            })
             .then((value) => print("Day event Updated"))
             .catchError((error) => print("Failed to update day event: $error"));
 
@@ -280,14 +275,14 @@ class _EventEditingPageState extends State<EventEditingPage> {
             .collection("DayEvents")
             .doc(index.toString())
             .set(
-          {
-            'title': titleController.text,
-            'description': descriptionController.text,
-            'from': fromDate,
-            'to': toDate
-          },
-          SetOptions(merge: true),
-        )
+              {
+                'title': titleController.text,
+                'description': descriptionController.text,
+                'from': fromDate,
+                'to': toDate
+              },
+              SetOptions(merge: true),
+            )
             .then((value) => print("Day event Added"))
             .catchError((error) => print("Failed to add day event: $error"));
 

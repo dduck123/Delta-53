@@ -1,3 +1,4 @@
+import 'package:my_app/helper/constants.dart';
 import 'package:provider/provider.dart';
 import 'leave_provider.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,7 @@ class _LeaveEditingPageState extends State<LeaveEditingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           leading: CloseButton(),
           actions: buildEditingActions(),
         ),

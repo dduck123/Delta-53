@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.deepOrange[200],
+                color: accentColor,
               ),
               hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.deepOrange[200],
+                color: accentColor,
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -130,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
 
   //v2
   _login() async {
@@ -200,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.indigo[400],
+        color: primaryColor,
         child: Text(
           'SIGN IN',
           style: TextStyle(
@@ -327,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextSpan(
               text: '\nContact Administrator',
               style: TextStyle(
-                color: Colors.indigo[400],
+                color: primaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -361,7 +360,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.deepOrange.shade200,
+                      accentColor,
                       Colors.white,
                     ],
                     stops: [0.1, 0.9],

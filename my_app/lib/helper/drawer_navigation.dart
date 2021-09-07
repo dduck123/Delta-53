@@ -120,8 +120,10 @@ class MyDrawer extends StatelessWidget {
               // ...
               // Then close the drawer
               Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => LogoutOverlay()));
+              Navigator.of(context).push(PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) =>
+                      LogoutOverlay()));
             },
           ),
         ],
