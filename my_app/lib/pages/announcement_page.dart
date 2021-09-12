@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
 class Announce extends StatefulWidget {
@@ -30,6 +31,7 @@ class _AnnounceState extends State<Announce> {
         //backgroundColor: Colors.blue[100],
 
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text("Announcement"),
         ),
         body: StreamBuilder(
@@ -40,130 +42,319 @@ class _AnnounceState extends State<Announce> {
             }
             return GridView.count(
               crossAxisCount: 2,
-              padding: const EdgeInsets.all(5),
+              // padding: const EdgeInsets.all(5),
               children: snapshot.data!.docs.map((announce) {
                 return Card(
-                  elevation: 10.0,
-                  shadowColor: Colors.indigo,
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50.0),
-                  ),
+                      borderRadius: BorderRadius.circular(20)),
+                  shadowColor: Colors.indigo,
+                  color: Colors.blue[100],
                   child: Container(
-                    child: ListTile(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      tileColor: Colors.blue[100],
-                      //      horizontal: 20.0, vertical: 30.0),
+                      padding: EdgeInsets.all(12),
+                      // child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    announce['title'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                    // maxLines: 1,
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                PopupMenuButton(itemBuilder: (context) {
+                                  return [
+                                    PopupMenuItem(
+                                      value: "Edit",
+                                      child: Text("Edit"),
+                                    ),
+                                    PopupMenuItem(
+                                      value: "Delete",
+                                      child: Text("Delete"),
+                                    )
+                                  ];
+                                }, onSelected: (String value) {
+                                  if (value == "Edit") {
+                                    textTitle.text = announce["title"];
+                                    textMessage.text = announce["message"];
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(40)),
+                                            elevation: 16,
+                                            child: Container(
+                                              child: ListView(
+                                                shrinkWrap: true,
+                                                children: <Widget>[
+                                                  SizedBox(height: 20),
+                                                  Center(
+                                                      child: Text(
+                                                          'Update announcement')),
+                                                  SizedBox(height: 20),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              top: 14.0),
+                                                      labelText: 'Title',
+                                                    ),
+                                                    controller: textTitle,
+                                                  ),
+                                                  TextField(
+                                                    decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      contentPadding:
+                                                          EdgeInsets.only(
+                                                              top: 14.0),
+                                                      labelText: 'Message',
+                                                    ),
+                                                    controller: textMessage,
+                                                  ),
+                                                  RaisedButton(
+                                                    child: Text("Update"),
+                                                    onPressed: () {
+                                                      announce.reference
+                                                          .update({
+                                                        'title': textTitle.text,
+                                                        'message':
+                                                            textMessage.text,
+                                                      });
 
-                      title: Transform.translate(
-                        offset: Offset(20, 12),
-                        child: Text(
-                          announce['title'],
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      subtitle: Transform.translate(
-                        offset: Offset(20, 25),
-                        child: Text(
-                          announce['message'],
-                          maxLines: 20,
-                          overflow: TextOverflow.ellipsis,
-                          softWrap: false,
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ),
-
-                      trailing: Wrap(
-                        spacing: 12,
-                        children: <Widget>[
-                          PopupMenuButton(itemBuilder: (context) {
-                            return [
-                              PopupMenuItem(
-                                value: "Edit",
-                                child: Text("Edit"),
+                                                      Navigator.pop(context,
+                                                          announcements);
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  }
+                                  if (value == "Delete") {
+                                    announce.reference.delete();
+                                  }
+                                }),
+                              ],
+                            ),
+                            SizedBox(height: 12),
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Text(
+                                  announce['message'],
+                                ),
                               ),
-                              PopupMenuItem(
-                                value: "Delete",
-                                child: Text("Delete"),
-                              )
-                            ];
-                          }, onSelected: (String value) {
-                            if (value == "Edit") {
-                              textTitle.text = announce["title"];
-                              textMessage.text = announce["message"];
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Dialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      elevation: 16,
-                                      child: Container(
-                                        child: ListView(
-                                          shrinkWrap: true,
-                                          children: <Widget>[
-                                            SizedBox(height: 20),
-                                            Center(
-                                                child: Text(
-                                                    'Update announcement')),
-                                            SizedBox(height: 20),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                contentPadding:
-                                                    EdgeInsets.only(top: 14.0),
-                                                labelText: 'Title',
-                                              ),
-                                              controller: textTitle,
-                                            ),
-                                            TextField(
-                                              decoration: InputDecoration(
-                                                border: InputBorder.none,
-                                                contentPadding:
-                                                    EdgeInsets.only(top: 14.0),
-                                                labelText: 'Message',
-                                              ),
-                                              controller: textMessage,
-                                            ),
-                                            RaisedButton(
-                                              child: Text("Update"),
-                                              onPressed: () {
-                                                announce.reference.update({
-                                                  'title': textTitle.text,
-                                                  'message': textMessage.text,
-                                                });
-
-                                                Navigator.pop(
-                                                    context, announcements);
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            }
-                            if (value == "Delete") {
-                              announce.reference.delete();
-                            }
-                          }),
-                        ],
+                            ),
+                          ]) //),
                       ),
-                    ),
-                  ),
                 );
+                // return Card(
+                //     color: Colors.blue[100],
+                //     // elevation: 8.0,
+                //     shadowColor: Colors.indigo,
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(20)),
+                //     child: Container(
+                //       padding: EdgeInsets.all(12),
+                //       child: SingleChildScrollView(
+                //         child: ListTile(
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(20.0),
+                //           ),
+                //           // tileColor: Colors.blue[100],
+                //           //      horizontal: 20.0, vertical: 30.0),
+
+                //           title: Row(
+                //             children: [
+                //               Text(
+                //                 announce['title'],
+                //                 style: TextStyle(
+                //                   // fontSize: 14,
+
+                //                   fontWeight: FontWeight.bold,
+                //                 ),
+                //               ),
+                //               PopupMenuButton(itemBuilder: (context) {
+                //                 return [
+                //                   PopupMenuItem(
+                //                     value: "Edit",
+                //                     child: Text("Edit"),
+                //                   ),
+                //                   PopupMenuItem(
+                //                     value: "Delete",
+                //                     child: Text("Delete"),
+                //                   )
+                //                 ];
+                //               }, onSelected: (String value) {
+                //                 if (value == "Edit") {
+                //                   textTitle.text = announce["title"];
+                //                   textMessage.text = announce["message"];
+                //                   showDialog(
+                //                       context: context,
+                //                       builder: (context) {
+                //                         return Dialog(
+                //                           shape: RoundedRectangleBorder(
+                //                               borderRadius:
+                //                                   BorderRadius.circular(40)),
+                //                           elevation: 16,
+                //                           child: Container(
+                //                             child: ListView(
+                //                               shrinkWrap: true,
+                //                               children: <Widget>[
+                //                                 SizedBox(height: 20),
+                //                                 Center(
+                //                                     child: Text(
+                //                                         'Update announcement')),
+                //                                 SizedBox(height: 20),
+                //                                 TextField(
+                //                                   decoration: InputDecoration(
+                //                                     border: InputBorder.none,
+                //                                     contentPadding:
+                //                                         EdgeInsets.only(
+                //                                             top: 14.0),
+                //                                     labelText: 'Title',
+                //                                   ),
+                //                                   controller: textTitle,
+                //                                 ),
+                //                                 TextField(
+                //                                   decoration: InputDecoration(
+                //                                     border: InputBorder.none,
+                //                                     contentPadding:
+                //                                         EdgeInsets.only(
+                //                                             top: 14.0),
+                //                                     labelText: 'Message',
+                //                                   ),
+                //                                   controller: textMessage,
+                //                                 ),
+                //                                 RaisedButton(
+                //                                   child: Text("Update"),
+                //                                   onPressed: () {
+                //                                     announce.reference.update({
+                //                                       'title': textTitle.text,
+                //                                       'message':
+                //                                           textMessage.text,
+                //                                     });
+
+                //                                     Navigator.pop(
+                //                                         context, announcements);
+                //                                   },
+                //                                 )
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         );
+                //                       });
+                //                 }
+                //                 if (value == "Delete") {
+                //                   announce.reference.delete();
+                //                 }
+                //               }),
+                //             ],
+                //           ),
+
+                //           subtitle: Text(
+                //             announce['message'],
+                //             maxLines: 20,
+                //             overflow: TextOverflow.ellipsis,
+                //             softWrap: false,
+                //             style: TextStyle(
+                //               fontSize: 15.0,
+                //               color: Colors.black87,
+                //               fontWeight: FontWeight.w300,
+                //             ),
+                //           ),
+
+                //           trailing: Wrap(
+                //             // spacing: 12,
+                //             children: <Widget>[
+                //               PopupMenuButton(itemBuilder: (context) {
+                //                 return [
+                //                   PopupMenuItem(
+                //                     value: "Edit",
+                //                     child: Text("Edit"),
+                //                   ),
+                //                   PopupMenuItem(
+                //                     value: "Delete",
+                //                     child: Text("Delete"),
+                //                   )
+                //                 ];
+                //               }, onSelected: (String value) {
+                //                 if (value == "Edit") {
+                //                   textTitle.text = announce["title"];
+                //                   textMessage.text = announce["message"];
+                //                   showDialog(
+                //                       context: context,
+                //                       builder: (context) {
+                //                         return Dialog(
+                //                           shape: RoundedRectangleBorder(
+                //                               borderRadius:
+                //                                   BorderRadius.circular(40)),
+                //                           elevation: 16,
+                //                           child: Container(
+                //                             child: ListView(
+                //                               shrinkWrap: true,
+                //                               children: <Widget>[
+                //                                 SizedBox(height: 20),
+                //                                 Center(
+                //                                     child: Text(
+                //                                         'Update announcement')),
+                //                                 SizedBox(height: 20),
+                //                                 TextField(
+                //                                   decoration: InputDecoration(
+                //                                     border: InputBorder.none,
+                //                                     contentPadding:
+                //                                         EdgeInsets.only(
+                //                                             top: 14.0),
+                //                                     labelText: 'Title',
+                //                                   ),
+                //                                   controller: textTitle,
+                //                                 ),
+                //                                 TextField(
+                //                                   decoration: InputDecoration(
+                //                                     border: InputBorder.none,
+                //                                     contentPadding:
+                //                                         EdgeInsets.only(
+                //                                             top: 14.0),
+                //                                     labelText: 'Message',
+                //                                   ),
+                //                                   controller: textMessage,
+                //                                 ),
+                //                                 RaisedButton(
+                //                                   child: Text("Update"),
+                //                                   onPressed: () {
+                //                                     announce.reference.update({
+                //                                       'title': textTitle.text,
+                //                                       'message':
+                //                                           textMessage.text,
+                //                                     });
+
+                //                                     Navigator.pop(
+                //                                         context, announcements);
+                //                                   },
+                //                                 )
+                //                               ],
+                //                             ),
+                //                           ),
+                //                         );
+                //                       });
+                //                 }
+                //                 if (value == "Delete") {
+                //                   announce.reference.delete();
+                //                 }
+                //               }),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ));
               }).toList(),
             );
           },

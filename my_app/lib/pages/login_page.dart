@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.email,
-                color: Colors.deepOrange[200],
+                color: accentColor,
               ),
               hintText: 'Enter your Email',
               hintStyle: kHintTextStyle,
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               contentPadding: EdgeInsets.only(top: 14.0),
               prefixIcon: Icon(
                 Icons.lock,
-                color: Colors.deepOrange[200],
+                color: accentColor,
               ),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
@@ -131,8 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-  //Log in function
   _login() async {
     {
       setState(() {
@@ -200,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
         ),
-        color: Colors.indigo[400],
+        color: primaryColor,
         child: Text(
           'SIGN IN',
           style: TextStyle(
@@ -214,82 +212,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  // Widget _buildLoginBtn() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(vertical: 25.0),
-  //     width: double.infinity,
-  //     child: RaisedButton(
-  //       elevation: 5.0,
-  //       onPressed: () {
-  //         if (validate(context)) {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => MainPage()),
-  //           );
-  //         } else {
-  //           showDialog(
-  //             context: context,
-  //             builder: (BuildContext context) => AlertDialog(
-  //               backgroundColor: Colors.indigo,
-  //               title: Center(
-  //                 child:
-  //                 Text('Alert',
-  //                   style:
-  //                   TextStyle(
-  //                     color: Colors.white,
-  //                     fontSize: 24,
-  //                     fontWeight: FontWeight.bold,
-  //
-  //                   )
-  //                 )
-  //               ),
-  //               content: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 crossAxisAlignment: CrossAxisAlignment.center,
-  //                 children : <Widget>[
-  //                   Expanded(
-  //                     child: Text(
-  //                       message,
-  //                       textAlign: TextAlign.center,
-  //                       style: TextStyle(
-  //                         color: Colors.white,
-  //
-  //                       ),
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //
-  //               actions: <Widget>[
-  //                 RaisedButton(
-  //                   color: Colors.white,
-  //                   onPressed: () => Navigator.pop(context, 'OK'),
-  //                   child: const Text('OK'),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         }
-  //       },
-  //       padding: EdgeInsets.all(15.0),
-  //       shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(30.0),
-  //       ),
-  //       color: Colors.indigo[400],
-  //       child: Text(
-  //         'SIGN IN',
-  //         style: TextStyle(
-  //           color: Colors.white,
-  //           letterSpacing: 1.5,
-  //           fontSize: 18.0,
-  //           fontWeight: FontWeight.bold,
-  //           fontFamily: 'OpenSans',
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildSignInWithText() {
     return Column(
@@ -327,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextSpan(
               text: '\nContact Administrator',
               style: TextStyle(
-                color: Colors.indigo[400],
+                color: primaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -361,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.deepOrange.shade200,
+                      accentColor,
                       Colors.white,
                     ],
                     stops: [0.1, 0.9],

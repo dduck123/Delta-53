@@ -1,5 +1,6 @@
 import 'package:grouped_list/grouped_list.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
 List _elements = [
@@ -54,6 +55,7 @@ class Faq extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text('FAQ'),
         ),
         body: GroupedListView<dynamic, String>(
@@ -113,6 +115,7 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: primaryColor,
         title: Text(qns),
       ),
       body: Padding(

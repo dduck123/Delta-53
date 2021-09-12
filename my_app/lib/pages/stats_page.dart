@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
 import 'package:my_app/helper/employee.dart';
@@ -23,6 +24,7 @@ class Stats extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: primaryColor,
             bottom: const TabBar(
               unselectedLabelColor: Colors.indigo,
               indicatorColor: Colors.indigo,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/constants.dart';
+import 'package:my_app/helper/constants.dart';
 import 'package:my_app/helper/drawer_navigation.dart';
 
 import 'package:my_app/todo/add_todo_dialog_widget.dart';
@@ -27,10 +29,11 @@ class _HomePageState extends State<TodoHomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: primaryColor,
         title: Text(TodoMainPage.title),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: primaryColor,
         unselectedItemColor: Colors.white.withOpacity(0.7),
         selectedItemColor: Colors.white,
         currentIndex: selectedIndex,
@@ -51,13 +54,11 @@ class _HomePageState extends State<TodoHomePage> {
       body: tabs[selectedIndex],
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(28),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: accentColor,
         onPressed: () {
-
           final provider = Provider.of<TodosProvider>(context, listen: false);
-
 
           showDialog(
             context: context,
