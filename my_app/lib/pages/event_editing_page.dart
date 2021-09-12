@@ -32,7 +32,6 @@ class _EventEditingPageState extends State<EventEditingPage> {
   late Color eventType;
 
   final currentUserID = FirebaseAuth.instance.currentUser!.uid;
-
   CollectionReference employees =
   FirebaseFirestore.instance.collection('Employees');
 

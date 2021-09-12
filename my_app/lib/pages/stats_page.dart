@@ -27,10 +27,6 @@ class Stats extends StatelessWidget {
               unselectedLabelColor: Colors.indigo,
               indicatorColor: Colors.indigo,
               tabs: [
-                // Tab(
-                //   icon: Icon(Icons.monetization_on_outlined),
-                //   text: "Payslips",
-                // ),
                 Tab(
                   icon: Icon(Icons.list_alt_outlined),
                   text: "Work Stats",
@@ -57,35 +53,6 @@ class Stats extends StatelessWidget {
   }
 }
 
-// class Payslip extends StatefulWidget {
-//   const Payslip({Key? key}) : super(key: key);
-
-//   @override
-//   _PayslipState createState() => _PayslipState();
-// }
-
-// class _PayslipState extends State<Payslip> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//         child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//           Container(
-//               color: Colors.grey[350],
-//               child: const ListTile(
-//                 title: Text('Payslip',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(fontSize: 50)),
-//                 subtitle: Text(
-//                   '\$4000.00',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(fontSize: 50),
-//                 ),
-//               )),
-//         ]));
-//   }
-// }
 
 class Leaves extends StatefulWidget {
   const Leaves({Key? key}) : super(key: key);

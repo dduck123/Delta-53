@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
 
-  //v2
+  //Log in function
   _login() async {
     {
       setState(() {

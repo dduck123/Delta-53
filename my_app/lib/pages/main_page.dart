@@ -42,7 +42,7 @@ class MainPage extends StatelessWidget {
       );
 }
 
-//To create a meeting inside the app
+//To create a event inside the app
 class Meeting {
   final String title;
   final String description;

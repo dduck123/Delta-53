@@ -11,9 +11,9 @@ class Requests extends StatefulWidget {
 }
 
 class _RequestsState extends State<Requests> {
+
   CollectionReference requests =
       FirebaseFirestore.instance.collection('Employees');
-
   final currentUserID = FirebaseAuth.instance.currentUser!.uid;
 
   @override
